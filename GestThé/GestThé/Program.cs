@@ -1,4 +1,6 @@
+using ElectronNET.API;
 using GestThéLib.Data.Database;
+using GestThéLib.Data.Electron;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
@@ -10,6 +12,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSignalR();
 builder.Services.AddLocalization();
+
+// Set the web-host to ElectronNET
+builder.WebHost.UseElectron(args);
+builder.Services.AddElectron();
 
 // Database Context
 DatabaseContext databaseContext = new DatabaseContext();
@@ -38,7 +44,10 @@ app.MapFallbackToPage("/_Host");
 // Swiss French localization
 app.UseRequestLocalization("fr-CH");
 
-// Electron NET
-// TODO : Implement Electron net
+// If Electron is active, open the mainWindow
+if (HybridSupport.IsElectronActive)
+{
+    await ElectronHandler.BuildElectronWindow();
+}
 
 app.Run();
