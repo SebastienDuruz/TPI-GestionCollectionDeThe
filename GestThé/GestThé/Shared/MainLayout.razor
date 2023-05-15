@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.WebUtilities
+@inherits LayoutComponentBase
+
+@inject NavigationManager NavigationManager
+@inject NotificationService NotificationService
+@inject DialogService DialogService
+
+<RadzenDialog/>
+<RadzenNotification/>
+
+<PageTitle>GestThé</PageTitle>
+
+<div class="h-full overflow-x-hidden">
+    <nav class="rz-background-color-base-300 w-full top-0 fixed z-[1000]">
+        <div class="p-2 mx-auto">
+            <div class="flex justify-between">
+                <div class="flex gap-8">
+                    <div>
+                        <a href="/" class="flex items-center">
+                            <span class="text-xl">GestThé</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex items-center">
+                        <RadzenLink Path="/">
+                            Thés
+                        </RadzenLink>
+                    </div>
+                    <div class="flex items-center rounded px-2 my-0">
+                        <RadzenLink Path="/list">
+                            Lists
+                        </RadzenLink>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container mx-auto mt-[80px]">
+    @Body
+</div>
+
+@code {
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+            var queryParams = QueryHelpers.ParseQuery(uri.Query);
+
+            if (queryParams.TryGetValue("message", out var message))
+            {
+                switch (message)
+                {
+                    case "exemple":
+                        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Ceci est un exemple !", Duration = 2000, CloseOnClick = true });
+                        NavigationManager.NavigateTo(NavigationManager.BaseUri);
+                        break;
+                }
+            }
+        }
+        
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}
