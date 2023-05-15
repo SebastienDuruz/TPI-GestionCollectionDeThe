@@ -1,8 +1,6 @@
 using ElectronNET.API;
 using GestThéLib.Data.Database;
 using GestThéLib.Data.Electron;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);

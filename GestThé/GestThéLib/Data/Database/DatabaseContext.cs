@@ -23,7 +23,6 @@ public partial class DatabaseContext : DbContext
     public virtual DbSet<TList> TLists { get; set; }
 
     public virtual DbSet<TProvider> TProviders { get; set; }
-
     public virtual DbSet<TRegion> TRegions { get; set; }
 
     public virtual DbSet<TTea> TTeas { get; set; }

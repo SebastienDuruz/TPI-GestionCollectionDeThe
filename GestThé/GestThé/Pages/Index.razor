@@ -1,16 +1,9 @@
 ﻿@page "/"
 
 @using GestThéLib.Data.Database
-@using GestThéLib.Models.Database
 
 @inject DatabaseContext DatabaseContext
 
 <PageTitle>GestThé</PageTitle>
 
 <h1>Hello, world!</h1>
-
-@foreach (TRegion region in Regions)
-{
-    <p>@region.RegionName</p>
-    <p>@region.IdCountryNavigation.CountryName</p>
-}
