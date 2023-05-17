@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.WebUtilities
+@using System.Globalization
 @inherits LayoutComponentBase
 
 @inject NavigationManager NavigationManager
@@ -11,26 +12,27 @@
 <PageTitle>GestThé</PageTitle>
 
 <div class="h-full overflow-x-hidden">
-    <nav class="rz-background-color-base-300 w-full top-0 fixed z-[1000]">
+    <nav class="w-full top-0 fixed z-[1000]">
         <div class="p-2 mx-auto">
             <div class="flex justify-between">
                 <div class="flex gap-8">
                     <div>
                         <a href="/" class="flex items-center">
-                            <span class="text-xl">GestThé</span>
+                            <span class="text-2xl mx-2">GestThé</span>
+                            <img src="logo-192x192.png" alt="tea icon" style="width: 32px; height: 32px;"/>
                         </a>
                     </div>
                 </div>
                 <div class="flex gap-4">
                     <div class="flex items-center">
-                        <RadzenLink Path="/">
-                            Thés
-                        </RadzenLink>
+                        <a href="/" class="flex items-center">
+                            <span class="@(NavigationManager.Uri == NavigationManager.BaseUri || NavigationManager.Uri.Contains("/?") ? "font-bold" : "")">Thés</span>
+                        </a>
                     </div>
                     <div class="flex items-center rounded px-2 my-0">
-                        <RadzenLink Path="/list">
-                            Lists
-                        </RadzenLink>
+                        <a href="/lists" class="flex items-center">
+                            <span class="@(NavigationManager.Uri.Contains("/lists?") || NavigationManager.Uri.EndsWith("/lists") ? "font-bold" : "")">Listes</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -43,23 +45,33 @@
 
 @code {
 
+    /// <summary>
+    /// OnAfterRenderAsync Method
+    /// </summary>
+    /// <param name="firstRender">Check if this is the first render</param>
+    /// <returns>Result of the Task</returns>
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            // Get the query parameters of the URI
             var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
             var queryParams = QueryHelpers.ParseQuery(uri.Query);
 
+            // If a message has to be render after redirection
             if (queryParams.TryGetValue("message", out var message))
             {
                 switch (message)
                 {
                     case "exemple":
                         NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Ceci est un exemple !", Duration = 2000, CloseOnClick = true });
-                        NavigationManager.NavigateTo(NavigationManager.BaseUri);
+                        NavigationManager.NavigateTo(NavigationManager.Uri);
                         break;
                 }
             }
+            
+            
+            
         }
         
         return base.OnAfterRenderAsync(firstRender);
