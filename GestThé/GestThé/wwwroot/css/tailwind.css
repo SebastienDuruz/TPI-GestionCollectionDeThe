@@ -758,6 +758,10 @@ select {
   margin: -1px !important;
 }
 
+.m-4 {
+  margin: 1rem;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -841,6 +845,10 @@ select {
   width: 1px !important;
 }
 
+.w-1\/4 {
+  width: 25%;
+}
+
 .w-8 {
   width: 2rem;
 }
@@ -863,8 +871,16 @@ select {
   animation: spin 1s linear infinite;
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .items-center {
   align-items: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }
 
 .justify-center {
@@ -923,6 +939,11 @@ select {
   border-right-color: transparent;
 }
 
+.bg-\[\#F4F5F9\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(244 245 249 / var(--tw-bg-opacity));
+}
+
 .\!p-0 {
   padding: 0px !important;
 }
@@ -941,6 +962,10 @@ select {
   padding-right: 1rem;
 }
 
+.align-middle {
+  vertical-align: middle;
+}
+
 .align-\[-0\.125em\] {
   vertical-align: -0.125em;
 }
@@ -948,6 +973,11 @@ select {
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .font-bold {

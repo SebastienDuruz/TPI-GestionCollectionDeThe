@@ -9,6 +9,7 @@ using System.Collections;
 using ElectronNET.API.Entities;
 using GestThéLib.Models.Database;
 using Microsoft.EntityFrameworkCore;
+using Radzen;
 using Radzen.Blazor;
 
 namespace GestThé.Pages;
@@ -48,9 +49,15 @@ public partial class Index
         return base.OnInitializedAsync();
     }
     
+    /// <summary>
+    /// Update the value of ShowArchived
+    /// </summary>
+    /// <param name="isChecked">New value to apply</param>
     void OnShowArchivedChange(bool isChecked)
     {
         _showArchived = isChecked;
+        
+        // Rebuild the corresponding list of tea
         if (_showArchived)
         {
             CollectionTeas = DatabaseContext.TTeas.Include(x => x.IdTypeNavigation)
@@ -67,6 +74,38 @@ public partial class Index
                 .Include(x => x.IdRegionNavigation.IdCountryNavigation)
                 .Include(x => x.IdProviderNavigation)
                 .Where(x => !x.TeaIsArchived.Value);
+        }
+    }
+
+    /// <summary>
+    /// Delete the specific tea if user confirm the Dialog
+    /// </summary>
+    /// <param name="teaToDelete">The tea to delete</param>
+    async Task DeleteTea(TTea teaToDelete)
+    {
+        var result = await DialogService.Confirm($"Voulez-vous vraiment archiver le thé {teaToDelete.TeaName} ?", "Archiver un thé", new ConfirmOptions() { OkButtonText = "Oui", CancelButtonText = "Non", CloseDialogOnOverlayClick = true});
+
+        if (result.HasValue && result.Value)
+        {
+            // The value exists in the current Data
+            if (CollectionTeas.Contains(teaToDelete))
+            {
+                // Remove from database
+                DatabaseContext.Remove<TTea>(teaToDelete);
+                await DatabaseContext.SaveChangesAsync();
+
+                // Update the lists used by view
+                CollectionTeas = CollectionTeas.Where(x => x.IdTea != teaToDelete.IdTea);
+
+                // Reload the data of the DataGrid component
+                await TeaDataGrid.Reload();
+            }
+            else
+            {
+                // Cancel the operation
+                TeaDataGrid.CancelEditRow(teaToDelete);
+                await TeaDataGrid.Reload();
+            }
         }
     }
 }

@@ -5,6 +5,7 @@
 
 @inject DatabaseContext DatabaseContext
 @inject NavigationManager NavigationManager
+@inject DialogService DialogService
 
 <PageTitle>GestThé - Thés</PageTitle>
 
@@ -17,7 +18,7 @@
             <RadzenLabel Text="Afficher les thés archivés ?" Component="archivedCheckbox" Style="margin-left: 8px; vertical-align: middle;"/>
         </div>
         <div>
-            <RadzenButton Text="Nouveau thé" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
+            <RadzenButton Text="Nouveau thé" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" Click=@(async args => await DialogService.OpenSideAsync<TeaAdd>("Ajouter un thé", options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) />
         </div>
     </RadzenStack>
 </div>
@@ -31,7 +32,14 @@
                 @{
                     string detailPage = $"/tea/{tea.IdTea}";
                 }
-                <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Secondary" Click="() => NavigationManager.NavigateTo(detailPage, true)">@tea.TeaName</RadzenButton>
+                @if (tea.TeaIsArchived.Value)
+                {
+                    <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Danger" Click="() => NavigationManager.NavigateTo(detailPage, true)">@tea.TeaName</RadzenButton>
+                }
+                else
+                {
+                    <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Secondary" Click="() => NavigationManager.NavigateTo(detailPage, true)">@tea.TeaName</RadzenButton>
+                }
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="TTea" Property="TVariety.VarietyName" Title="Variété" Filterable="true" Sortable="false">
@@ -55,10 +63,12 @@
             <HeaderTemplate>
                 <p class="mx-2">Total : <b>@CollectionTeas.Count()</b> thés</p> 
             </HeaderTemplate>
-            <Template Context="collection">
-                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="file_copy" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" @onclick:stopPropagation="true"></RadzenButton>
-                <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" @onclick:stopPropagation="true"></RadzenButton>
-                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" @onclick:stopPropagation="true"></RadzenButton>
+            <Template Context="teaFunctions">
+                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="file_copy" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
+                              Click=@(async args => await DialogService.OpenSideAsync<TeaCopy>("Copier un thé",new Dictionary<string, object>() { { "TeaId", (Int32)teaFunctions.IdTea } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) @onclick:stopPropagation="true"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
+                              Click=@(async args => await DialogService.OpenSideAsync<TeaModify>("Modifier un thé",new Dictionary<string, object>() { { "TeaId", (Int32)teaFunctions.IdTea } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) @onclick:stopPropagation="true"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(async (args) => await DeleteTea(teaFunctions))" @onclick:stopPropagation="true"></RadzenButton>
             </Template>
         </RadzenDataGridColumn>
     </Columns>
