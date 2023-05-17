@@ -734,6 +734,10 @@ select {
   position: fixed;
 }
 
+.\!absolute {
+  position: absolute !important;
+}
+
 .absolute {
   position: absolute;
 }
@@ -750,8 +754,8 @@ select {
   z-index: 1000;
 }
 
-.m-2 {
-  margin: 0.5rem;
+.\!-m-px {
+  margin: -1px !important;
 }
 
 .mx-2 {
@@ -769,18 +773,12 @@ select {
   margin-bottom: 0px;
 }
 
-.my-auto {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-.my-2 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
 .mt-\[80px\] {
   margin-top: 80px;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 .inline {
@@ -803,8 +801,28 @@ select {
   display: none;
 }
 
+.\!h-px {
+  height: 1px !important;
+}
+
+.h-8 {
+  height: 2rem;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
 .h-full {
   height: 100%;
+}
+
+.\!w-px {
+  width: 1px !important;
+}
+
+.w-8 {
+  width: 2rem;
 }
 
 .w-full {
@@ -815,8 +833,22 @@ select {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
 .items-center {
   align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .justify-between {
@@ -831,12 +863,48 @@ select {
   gap: 2rem;
 }
 
+.\!overflow-hidden {
+  overflow: hidden !important;
+}
+
 .overflow-x-hidden {
   overflow-x: hidden;
 }
 
+.\!whitespace-nowrap {
+  white-space: nowrap !important;
+}
+
 .rounded {
   border-radius: 0.25rem;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.\!border-0 {
+  border-width: 0px !important;
+}
+
+.border-4 {
+  border-width: 4px;
+}
+
+.border-solid {
+  border-style: solid;
+}
+
+.border-current {
+  border-color: currentColor;
+}
+
+.border-r-transparent {
+  border-right-color: transparent;
+}
+
+.\!p-0 {
+  padding: 0px !important;
 }
 
 .p-2 {
@@ -853,18 +921,8 @@ select {
   padding-right: 1rem;
 }
 
-.align-middle {
-  vertical-align: middle;
-}
-
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-}
-
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+.align-\[-0\.125em\] {
+  vertical-align: -0.125em;
 }
 
 .text-2xl {
@@ -874,10 +932,6 @@ select {
 
 .font-bold {
   font-weight: 700;
-}
-
-.font-normal {
-  font-weight: 400;
 }
 
 .outline {
@@ -895,4 +949,20 @@ select {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+.\!\[clip\:rect\(0\2c 0\2c 0\2c 0\)\] {
+  clip: rect(0,0,0,0) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .motion-reduce\:animate-\[spin_1\.5s_linear_infinite\] {
+    animation: spin 1.5s linear infinite;
+  }
 }
