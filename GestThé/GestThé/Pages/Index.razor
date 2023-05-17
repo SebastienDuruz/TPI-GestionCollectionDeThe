@@ -1,9 +1,72 @@
 ﻿@page "/"
 
 @using GestThéLib.Data.Database
+@using GestThéLib.Models.Database
 
 @inject DatabaseContext DatabaseContext
+@inject NavigationManager NavigationManager
 
 <PageTitle>GestThé - Thés</PageTitle>
 
 <RadzenText TextStyle="TextStyle.H6">Thés</RadzenText>
+
+<div class="my-6">
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Stretch" JustifyContent="JustifyContent.SpaceBetween">
+        <div>
+            <RadzenCheckBox @bind-Value="_showArchived" Name="archivedCheckbox" Change="@(args => OnShowArchivedChange(args))" TValue="bool"/>
+            <RadzenLabel Text="Afficher les thés archivés ?" Component="archivedCheckbox" Style="margin-left: 8px; vertical-align: middle;"/>
+        </div>
+        <div>
+            <RadzenButton Text="Nouveau thé" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" />
+        </div>
+    </RadzenStack>
+</div>
+
+<RadzenDataGrid @ref="TeaDataGrid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Simple" 
+                AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
+                Data="@CollectionTeas"TItem="TTea" LogicalFilterOperator="LogicalFilterOperator.And">
+    <Columns>
+        <RadzenDataGridColumn TItem="TTea" Property="TeaName" Title="Nom" Frozen="true">
+            <Template Context="tea">
+                @{
+                    string detailPage = $"/tea/{tea.IdTea}";
+                }
+                <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Secondary" Click="() => NavigationManager.NavigateTo(detailPage, true)">@tea.TeaName</RadzenButton>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TTea" Property="TVariety.VarietyName" Title="Variété" Filterable="true" Sortable="false">
+            <Template Context="tea">
+                @tea.IdVarietyNavigation.VarietyName
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TTea" Property="TType.TypeName" Title="Type" Filterable="true" Sortable="false">
+            <Template Context="tea">
+                @tea.IdTypeNavigation.TypeName
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TTea" Property="TCountry.CountryName" Title="Pays / Région" Filterable="true" Sortable="false">
+            <Template Context="tea">
+                @($"{tea.IdRegionNavigation.IdCountryNavigation.CountryName} / {tea.IdRegionNavigation.RegionName}")
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TTea" Property="TeaPrice" Filterable="true" Title="Prix 100g (CHF)"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TTea" Property="TeaYear" Filterable="true" Title="Année"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TTea" Context="tea" Filterable="false" Sortable="false" TextAlign="TextAlign.Right">
+            <HeaderTemplate>
+                <p class="mx-2">Total : <b>@CollectionTeas.Count()</b> thés</p> 
+            </HeaderTemplate>
+            <Template Context="collection">
+                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="file_copy" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" @onclick:stopPropagation="true"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" @onclick:stopPropagation="true"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" @onclick:stopPropagation="true"></RadzenButton>
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+
+    
+    
+
+}

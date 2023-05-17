@@ -1,1 +1,58 @@
-﻿<h3>TeaDetails</h3>
+﻿@page "/tea/{TeaId:int}"
+
+@using GestThéLib.Data.Database
+
+@inject DatabaseContext DatabaseContext
+
+<RadzenText TextStyle="TextStyle.H6">Détail @(Tea.TeaName)</RadzenText>
+
+<div class="my-12 flex justify-center">
+    <RadzenStack Orientation="Orientation.Vertical" Gap="30px" JustifyContent="JustifyContent.SpaceBetween" Style="width: 500px;">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+            <div>
+                <RadzenText TextStyle="TextStyle.H6">Variété</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1">@Tea.IdVarietyNavigation.VarietyName</RadzenText>
+            </div>
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+            <div>
+                <RadzenText TextStyle="TextStyle.H6">Type</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1">@Tea.IdTypeNavigation.TypeName</RadzenText>
+            </div>
+            <div>
+                <RadzenText TextStyle="TextStyle.H6">Année</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.End">@Tea.TeaYear</RadzenText>
+            </div>
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+            <div>
+                <RadzenText TextStyle="TextStyle.H6">Pays</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1">@Tea.IdRegionNavigation.IdCountryNavigation.CountryName</RadzenText>
+            </div>
+            <div>
+                <RadzenText TextStyle="TextStyle.H6">Région</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.End">@Tea.IdRegionNavigation.RegionName</RadzenText>
+            </div>
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+            <div>
+                <RadzenText TextStyle="TextStyle.H6">Prix (100g)</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1">@($"{Tea.TeaPrice}.-")</RadzenText>
+            </div>
+            <div>
+                <RadzenText TextStyle="TextStyle.H6">Quantité</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Center">@($"{Tea.TeaQuantity}g")</RadzenText>
+            </div>
+            <div>
+                <RadzenText TextStyle="TextStyle.H6">Total</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.End">@($"{Tea.TeaPrice*Tea.TeaQuantity/100}.-")</RadzenText>
+            </div>
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+            <div>
+                <RadzenText TextStyle="TextStyle.H6">Description</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1">@Tea.TeaDescription</RadzenText>
+            </div>
+        </RadzenStack>
+    </RadzenStack>
+</div>
