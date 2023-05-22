@@ -7,6 +7,7 @@
 @inject DatabaseContext DatabaseContext
 @inject NavigationManager NavigationManager
 @inject DialogService DialogService
+@inject NotificationService NotificationService
 
 <PageTitle>GestThé - Thés</PageTitle>
 
@@ -63,7 +64,7 @@
 
 <RadzenDataGrid @ref="TeaDataGrid" AllowFiltering="false" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowColumnResize="true" AllowAlternatingRows="false" 
                 AllowSorting="true" PageSize="8" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
-                Data="@CollectionTeas"TItem="TTea" LogicalFilterOperator="LogicalFilterOperator.And">
+                Data="@CollectionTeas" TItem="TTea" LogicalFilterOperator="LogicalFilterOperator.And" EmptyText="Aucun thé à afficher.">
     <Columns>
         <RadzenDataGridColumn TItem="TTea" Property="TeaName" Title="Nom" Frozen="true">
             <Template Context="tea">

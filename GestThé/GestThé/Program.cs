@@ -16,8 +16,7 @@ builder.WebHost.UseElectron(args);
 builder.Services.AddElectron();
 
 // Database Context
-DatabaseContext databaseContext = new DatabaseContext();
-builder.Services.AddSingleton(databaseContext);
+builder.Services.AddTransient<DatabaseContext>();
 
 // Radzen Services
 builder.Services.AddScoped<NotificationService>();

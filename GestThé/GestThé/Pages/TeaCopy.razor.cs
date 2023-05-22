@@ -82,15 +82,9 @@ public partial class TeaCopy
             await DatabaseContext.SaveChangesAsync();
             DatabaseContext.AttachRange(CopiedTea);
 
-            // Notify user and reset the form for next operation
-            NotificationService.Notify(new NotificationMessage
-            {
-                Severity = NotificationSeverity.Success, Summary = $"Le thé {CopiedTea.TeaName} a été copié et ajouté !"
-            });
-
             CopiedTea = new TTea();
 
-            NavigationManager.NavigateTo(NavigationManager.Uri, true);
+            NavigationManager.NavigateTo($"{NavigationManager.Uri}?message=copiedtea", true);
         }
         else
         {

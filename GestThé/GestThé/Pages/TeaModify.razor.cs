@@ -60,19 +60,13 @@ public partial class TeaModify
         if (TeaToModify.IdVarietyNavigation != null && TeaToModify.IdRegionNavigation != null &&
             TeaToModify.IdProviderNavigation != null && TeaToModify.IdTypeNavigation != null)
         {
-            DatabaseContext.TTeas.Update(TeaToModify);
+            await Task.Run(() => (DatabaseContext.TTeas.Update(TeaToModify)));
             await DatabaseContext.SaveChangesAsync();
             DatabaseContext.AttachRange(TeaToModify);
-        
-            // Notify user and reset the form for next operation
-            NotificationService.Notify(new NotificationMessage
-            {
-                Severity = NotificationSeverity.Success, Summary = $"Le thé {TeaToModify.TeaName} a été modifé !"
-            });
 
             TeaToModify = new TTea();
             
-            NavigationManager.NavigateTo(NavigationManager.Uri, true);
+            NavigationManager.NavigateTo($"{NavigationManager.Uri}?message=updatedtea", true);
         }
         else
         {
