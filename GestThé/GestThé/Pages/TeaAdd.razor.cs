@@ -57,16 +57,10 @@ public partial class TeaAdd
             await DatabaseContext.TTeas.AddAsync(TeaToAdd);
             await DatabaseContext.SaveChangesAsync();
             DatabaseContext.AttachRange(TeaToAdd);
-        
-            // Notify user and reset the form for next operation
-            NotificationService.Notify(new NotificationMessage
-            {
-                Severity = NotificationSeverity.Success, Summary = $"Le thé {TeaToAdd.TeaName} a été crée !"
-            });
 
             TeaToAdd = new TTea();
             
-            NavigationManager.NavigateTo(NavigationManager.Uri, true);
+            NavigationManager.NavigateTo($"{NavigationManager.Uri}?message=addedtea", true);
         }
         else
         {

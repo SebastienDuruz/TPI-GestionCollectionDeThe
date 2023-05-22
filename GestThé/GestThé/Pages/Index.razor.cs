@@ -115,6 +115,12 @@ public partial class Index
                 // Update the lists used by view
                 CollectionTeas = CollectionTeas.Where(x => x.IdTea != teaToDelete.IdTea);
 
+                NotificationService.Notify(new NotificationMessage
+                {
+                    Severity = NotificationSeverity.Success, Summary = "Le thé a bien été supprimé !", Duration = 2000,
+                    CloseOnClick = true
+                });
+
                 // Reload the data of the DataGrid component
                 await TeaDataGrid.Reload();
             }
