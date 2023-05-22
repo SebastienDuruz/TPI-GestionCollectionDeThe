@@ -1,20 +1,30 @@
 {
   "executable": "GestThé",
   "splashscreen": {
-    "imageFile": ""
+    "imageFile": "/wwwroot/logo-192x192.png"
   },
-  "name": "GestThé",
+  "name": "GestThe",
   "author": "Sébastien Duruz",
   "singleInstance": true,
   "environment": "Production",
   "build": {
-    "appId": "com.GestThé.app",
-    "productName": "GestThé",
+    "appId": "com.GestThe.app",
+    "productName": "GestThe",
     "copyright": "Copyright © 2023",
     "buildVersion": "0.1.0",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop"
+    },
+    "win": {
+      "icon": "../../../bin/Desktop/win-unpacked/resources/bin/wwwroot/logo-512x512.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "runAfterFinish": false,
+      "artifactName": "${productName}_${version}.${ext}"
     },
     "extraResources": [
       {
