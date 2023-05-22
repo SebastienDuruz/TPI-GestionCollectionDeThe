@@ -54,7 +54,7 @@ public partial class TeaAdd
         if (TeaToAdd.IdVarietyNavigation != null && TeaToAdd.IdRegionNavigation != null &&
             TeaToAdd.IdProviderNavigation != null && TeaToAdd.IdTypeNavigation != null)
         {
-            DatabaseContext.TTeas.Add(TeaToAdd);
+            await DatabaseContext.TTeas.AddAsync(TeaToAdd);
             await DatabaseContext.SaveChangesAsync();
             DatabaseContext.AttachRange(TeaToAdd);
         

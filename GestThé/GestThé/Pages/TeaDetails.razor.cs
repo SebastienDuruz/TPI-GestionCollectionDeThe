@@ -40,6 +40,10 @@ public partial class TeaDetails
         }
     }
     
+    /// <summary>
+    /// Get the tea to show by the corresponding ID
+    /// </summary>
+    /// <returns>The tea to show</returns>
     private async Task<TTea> GetTeaFromId()
     {
         return await DatabaseContext.TTeas.Include(x => x.IdTypeNavigation)

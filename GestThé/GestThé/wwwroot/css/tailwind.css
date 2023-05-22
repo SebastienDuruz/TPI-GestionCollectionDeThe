@@ -792,6 +792,11 @@ select {
   margin-bottom: 1.5rem;
 }
 
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .ms-1 {
   -webkit-margin-start: 0.25rem;
           margin-inline-start: 0.25rem;
@@ -849,6 +854,10 @@ select {
   width: 25%;
 }
 
+.w-2\/5 {
+  width: 40%;
+}
+
 .w-8 {
   width: 2rem;
 }
@@ -875,6 +884,10 @@ select {
   flex-direction: column;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .items-center {
   align-items: center;
 }
@@ -889,6 +902,10 @@ select {
 
 .justify-between {
   justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 0.5rem;
 }
 
 .gap-4 {
@@ -966,6 +983,10 @@ select {
   vertical-align: middle;
 }
 
+.align-bottom {
+  vertical-align: bottom;
+}
+
 .align-\[-0\.125em\] {
   vertical-align: -0.125em;
 }
@@ -973,11 +994,6 @@ select {
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
-}
-
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
 }
 
 .font-bold {

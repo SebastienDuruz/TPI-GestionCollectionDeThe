@@ -2,6 +2,7 @@
 
 @using GestThéLib.Data.Database
 @using GestThéLib.Models.Database
+@using System.Globalization
 
 @inject DatabaseContext DatabaseContext
 @inject NavigationManager NavigationManager
@@ -10,6 +11,43 @@
 <PageTitle>GestThé - Thés</PageTitle>
 
 <RadzenText TextStyle="TextStyle.H6">Thés</RadzenText>
+
+<div class="my-8">
+    <RadzenText Text="Filtres" TextStyle="TextStyle.Subtitle1"></RadzenText>
+    <div class="flex align-bottom justify-between flex-wrap gap-2">
+        <div>
+            <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Nom</RadzenText>
+            <RadzenTextBox @oninput="@(x => NameOnChange(x.Value.ToString()))" Style="width: 300px;"></RadzenTextBox>
+        </div>
+        <div>
+            <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Variété</RadzenText>
+            <RadzenTextBox @oninput="@(x => VarietyOnChange(x.Value.ToString()))"></RadzenTextBox>
+        </div>
+        <div>
+            <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Type</RadzenText>
+            <RadzenTextBox @oninput="@(x => TypeOnChange(x.Value.ToString()))"></RadzenTextBox>
+        </div>
+        <div>
+            <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Pays / Région</RadzenText>
+            <RadzenTextBox @oninput="@(x => RegionOnChange(x.Value.ToString()))"></RadzenTextBox>
+        </div>
+        <div>
+            <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Prix minimum</RadzenText>
+            <RadzenNumeric TValue="double" Step="0.01" Format="c" Value=@_teaMinPriceSearchValue Change="@(x => MinPriceOnChange(x))"></RadzenNumeric>
+        </div>
+        <div>
+            <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Prix maximum</RadzenText>
+            <RadzenNumeric TValue="double" Step="0.01" Format="c" Value=@_teaMaxPriceSearchValue Change="@(x => MaxPriceOnChange(x))"></RadzenNumeric>
+        </div>
+        <div>
+            <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Année</RadzenText>
+            <RadzenDropDown Multiple="true" AllowClear="true" Placeholder="Année(s)..." @bind-Value=@_teaYearSearchValues Change="Search" Data="_teaYearsValues"></RadzenDropDown>
+        </div>
+        <div class="flex flex-col align-middle justify-end">
+            <RadzenButton Click=@(args => ClearFilters()) Icon="refresh" ButtonStyle="ButtonStyle.Dark" Variant="Variant.Text" Size="ButtonSize.Medium" />
+        </div>
+    </div>
+</div>
 
 <div class="my-6">
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Stretch" JustifyContent="JustifyContent.SpaceBetween">
@@ -23,8 +61,8 @@
     </RadzenStack>
 </div>
 
-<RadzenDataGrid @ref="TeaDataGrid" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Simple" 
-                AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
+<RadzenDataGrid @ref="TeaDataGrid" AllowFiltering="false" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowColumnResize="true" AllowAlternatingRows="false" 
+                AllowSorting="true" PageSize="8" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
                 Data="@CollectionTeas"TItem="TTea" LogicalFilterOperator="LogicalFilterOperator.And">
     <Columns>
         <RadzenDataGridColumn TItem="TTea" Property="TeaName" Title="Nom" Frozen="true">
@@ -57,18 +95,19 @@
                 @($"{tea.IdRegionNavigation.IdCountryNavigation.CountryName} / {tea.IdRegionNavigation.RegionName}")
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="TTea" Property="TeaPrice" Filterable="true" Title="Prix 100g (CHF)"></RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="TTea" Property="TeaYear" Filterable="true" Title="Année"></RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="TTea" Context="tea" Filterable="false" Sortable="false" TextAlign="TextAlign.Right">
-            <HeaderTemplate>
-                <p class="mx-2">Total : <b>@CollectionTeas.Count()</b> thés</p> 
-            </HeaderTemplate>
+        <RadzenDataGridColumn TItem="TTea" Property="TeaPrice" Filterable="true" Title="Prix 100g" Width="100px">
+            <Template Context="price">
+                @($"{price.TeaPrice.Value.ToString("C", CultureInfo.CurrentCulture)}")
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TTea" Property="TeaYear" Filterable="true" Title="Année" Width="70px"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TTea" Context="tea" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="130px">
             <Template Context="teaFunctions">
-                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="file_copy" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
+                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="file_copy" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1"
                               Click=@(async args => await DialogService.OpenSideAsync<TeaCopy>("Copier un thé",new Dictionary<string, object>() { { "TeaId", (Int32)teaFunctions.IdTea } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) @onclick:stopPropagation="true"></RadzenButton>
-                <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
+                <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1"
                               Click=@(async args => await DialogService.OpenSideAsync<TeaModify>("Modifier un thé",new Dictionary<string, object>() { { "TeaId", (Int32)teaFunctions.IdTea } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) @onclick:stopPropagation="true"></RadzenButton>
-                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" Click="@(async (args) => await DeleteTea(teaFunctions))" @onclick:stopPropagation="true"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1" Click="@(async (args) => await DeleteTea(teaFunctions))" @onclick:stopPropagation="true"></RadzenButton>
             </Template>
         </RadzenDataGridColumn>
     </Columns>

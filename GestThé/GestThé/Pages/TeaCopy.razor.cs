@@ -39,11 +39,11 @@ public partial class TeaCopy
     protected override async Task OnInitializedAsync()
     {
         // Get the tea from database
-        TTea teaToCopy = DatabaseContext.TTeas.Include(x => x.IdProviderNavigation)
+        TTea teaToCopy = await DatabaseContext.TTeas.Include(x => x.IdProviderNavigation)
             .Include(x => x.IdRegionNavigation)
             .Include(x => x.IdVarietyNavigation)
             .Include(x => x.IdTypeNavigation)
-            .Where(x => x.IdTea == TeaId).First();
+            .Where(x => x.IdTea == TeaId).FirstAsync();
 
         // Copy the values to a new object (avoir editing the initial object)
         CopiedTea = new TTea()
@@ -78,7 +78,7 @@ public partial class TeaCopy
         if (CopiedTea.IdVarietyNavigation != null && CopiedTea.IdRegionNavigation != null &&
             CopiedTea.IdProviderNavigation != null && CopiedTea.IdTypeNavigation != null)
         {
-            DatabaseContext.TTeas.Add(CopiedTea);
+            await DatabaseContext.TTeas.AddAsync(CopiedTea);
             await DatabaseContext.SaveChangesAsync();
             DatabaseContext.AttachRange(CopiedTea);
 
