@@ -12,7 +12,7 @@
 <PageTitle>GestThé</PageTitle>
 
 <div class="h-full overflow-x-hidden">
-    <nav class="w-full top-0 fixed z-[1000]">
+    <nav class="w-full top-0 fixed z-[1000] bg-[#F4F5F9]">
         <div class="p-2 mx-auto">
             <div class="flex justify-between">
                 <div class="flex gap-8">
@@ -63,8 +63,8 @@
             {
                 switch (message)
                 {
-                    case "exemple":
-                        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Ceci est un exemple !", Duration = 2000, CloseOnClick = true });
+                    case "addedtea":
+                        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Le thé a bien été ajouté !", Duration = 2000, CloseOnClick = true });
                         NavigationManager.NavigateTo(NavigationManager.Uri);
                         break;
                 }

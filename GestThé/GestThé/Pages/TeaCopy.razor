@@ -1,1 +1,74 @@
-﻿<h3>TeaCopy</h3>
+﻿@page "/teacopy/{TeaId:int}"
+
+@using GestThéLib.Data.Database
+@using GestThéLib.Models.Database
+@using Microsoft.AspNetCore.Components
+@using Microsoft.EntityFrameworkCore
+
+@inject DatabaseContext DatabaseContext
+@inject NavigationManager NavigationManager
+@inject NotificationService NotificationService
+
+<RadzenTemplateForm Context="teaForm" class="flex flex-col gap-4 align-middle m-4" TItem="TTea" Data="@CopiedTea" Submit="@HandleTeaCopy" >
+    <DataAnnotationsValidator />
+    <div class="flex flex-col">
+        <RadzenLabel for="teaName">Nom</RadzenLabel>
+        <RadzenTextBox type="text" Name="teaName" id="teaName" @bind-Value="CopiedTea.TeaName" />
+        <div class="flex justify-end">
+            <RadzenRequiredValidator Component="teaName" Text="Le nom du thé est requis" Popup="false" />
+            <RadzenLengthValidator Component="teaName" Max="50" Text="Le nom du thé ne peut pas faire plus de 50 charactères" />
+        </div>
+    </div>
+    <div class="flex flex-col">
+        <RadzenLabel for="teaVariety">Variété</RadzenLabel>
+        <RadzenDropDown TValue="TVariety" @bind-Value="CopiedTea.IdVarietyNavigation" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Placeholder="Variété..." 
+                        AllowClear="false" AllowFiltering="true" Data="@(DatabaseContext.TVarieties)" TextProperty="VarietyName"/>
+    </div>
+    <div class="flex flex-col">
+        <RadzenLabel for="teaType">Type</RadzenLabel>
+        <RadzenDropDown TValue="TType" @bind-Value="CopiedTea.IdTypeNavigation" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Placeholder="Type..." 
+                        AllowClear="false" AllowFiltering="true" Data="@(DatabaseContext.TTypes)" TextProperty="TypeName"/>
+    </div>
+    <div class="flex flex-col">
+        <RadzenLabel  for="teaVariety">Provenance</RadzenLabel>
+        <RadzenDropDown TValue="TRegion" @bind-Value="CopiedTea.IdRegionNavigation" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Placeholder="Provenance..." 
+                        AllowClear="false" AllowFiltering="false" 
+                        Data="@(DatabaseContext.TRegions.Include(x => x.IdCountryNavigation))">
+            <Template>
+                @(String.IsNullOrWhiteSpace(context.RegionName) ? $"{context.IdCountryNavigation.CountryName}" : $"{context.IdCountryNavigation.CountryName} / {context.RegionName}")
+            </Template>
+        </RadzenDropDown>
+    </div>
+    <div class="flex flex-col">
+        <RadzenLabel  for="teaProvider">Fournisseur</RadzenLabel>
+        <RadzenDropDown TValue="TProvider" @bind-Value="CopiedTea.IdProviderNavigation" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Placeholder="Provider..." 
+                        AllowClear="false" AllowFiltering="true" Data="@(DatabaseContext.TProviders)" TextProperty="ProviderName"/>
+    </div>
+    <div class="flex justify-between">
+        <div class="flex flex-col w-1/4">
+            <RadzenLabel for="teaYear">Année</RadzenLabel>
+            <RadzenDropDown TValue="long?" @bind-Value="CopiedTea.TeaYear" Placeholder="Année..." 
+                            AllowClear="false" AllowFiltering="false" Data="@(LastYears)"/>
+                
+        </div>
+        <div class="flex flex-col w-2/5">
+            <RadzenLabel for="teaPrice">Prix</RadzenLabel>
+            <RadzenNumeric TValue="double?" Step="0.05" Format="c" @bind-Value=@CopiedTea.TeaPrice />
+        </div>
+        <div class="flex flex-col w-2/5">
+            <RadzenLabel for="teaQuantity">Quantité</RadzenLabel>
+            <RadzenNumeric TValue="long?" Format="### g" @bind-Value=@CopiedTea.TeaQuantity />
+        </div>
+    </div>
+    <div class="flex flex-col">
+        <RadzenLabel for="teaDescription">Description (facultatif)</RadzenLabel>
+        <RadzenTextArea Name="teaDescription" id="teaDescription" Rows="3" @bind-Value="CopiedTea.TeaDescription" />
+    </div>
+    <div class="flex justify-between">
+        <div>
+            <RadzenCheckBox @bind-Value="CopiedTea.TeaIsArchived" Name="archivedCheckbox" TValue="bool?"/>
+            <RadzenLabel Text="Archivé ?" Component="archivedCheckbox" Style="margin-left: 8px; vertical-align: middle;"/>
+        </div>
+        <RadzenButton type="submit">Ajouter la copie</RadzenButton>
+    </div>
+</RadzenTemplateForm>  

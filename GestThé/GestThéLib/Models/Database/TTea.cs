@@ -11,7 +11,7 @@ public partial class TTea
 
     public string? TeaDescription { get; set; }
 
-    public byte[]? TeaPrice { get; set; }
+    public double? TeaPrice { get; set; }
 
     public long? TeaQuantity { get; set; }
 
