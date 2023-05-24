@@ -115,6 +115,9 @@ public partial class ListModify
         // No field selected, set the default one
         else
             ListToModify.IdFields = DatabaseContext.TFields.Where(x => x.FieldName == DEFAULT_FIELD).ToList();
+
+        // Update the modification date
+        ListToModify.ListModificationDate = DateTime.Now;
         
         // Add the list onto database
         await Task.Run(() => (DatabaseContext.TLists.Update(ListToModify)));

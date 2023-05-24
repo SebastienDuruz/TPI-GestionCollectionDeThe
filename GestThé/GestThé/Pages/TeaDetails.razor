@@ -3,8 +3,14 @@
 @using GestThéLib.Data.Database
 
 @inject DatabaseContext DatabaseContext
+@inject NavigationManager NavigationManager
 
-<RadzenText TextStyle="TextStyle.H6">Détail @(Tea.TeaName)</RadzenText>
+<div class="flex justify-between">
+    <RadzenText TextStyle="TextStyle.H6">Détail @(Tea.TeaName)</RadzenText>
+    <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="keyboard_return" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
+                  Click="@((args) => ReturnToHome())" @onclick:stopPropagation="true">
+    </RadzenButton>
+</div>
 
 <div class="my-12 flex justify-center">
     <RadzenStack Orientation="Orientation.Vertical" Gap="30px" JustifyContent="JustifyContent.SpaceBetween" Style="width: 500px;">

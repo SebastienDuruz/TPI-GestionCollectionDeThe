@@ -52,4 +52,12 @@ public partial class TeaDetails
             .Include(x => x.IdRegionNavigation.IdCountryNavigation)
             .Include(x => x.IdProviderNavigation).Where(x => x.IdTea == TeaId).FirstOrDefaultAsync();
     }
+
+    /// <summary>
+    /// Navigate back to homepage
+    /// </summary>
+    private async Task ReturnToHome()
+    {
+        NavigationManager.NavigateTo(NavigationManager.BaseUri);
+    }
 }

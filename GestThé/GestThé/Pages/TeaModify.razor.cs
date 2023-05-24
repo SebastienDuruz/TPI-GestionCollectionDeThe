@@ -60,6 +60,9 @@ public partial class TeaModify
         if (TeaToModify.IdVarietyNavigation != null && TeaToModify.IdRegionNavigation != null &&
             TeaToModify.IdProviderNavigation != null && TeaToModify.IdTypeNavigation != null)
         {
+            // Update the modification date
+            TeaToModify.TeaModificationDate = DateTime.Now;
+            
             await Task.Run(() => (DatabaseContext.TTeas.Update(TeaToModify)));
             await DatabaseContext.SaveChangesAsync();
             DatabaseContext.AttachRange(TeaToModify);
