@@ -23,10 +23,34 @@
         <RadzenLabel for="listDescription">Description</RadzenLabel>
         <RadzenTextArea Name="listDescription" id="listDescription" Rows="3" @bind-Value="ListToAdd.ListDescription" />
     </div>
-    <div class="flex flex-col">
-        <RadzenLabel for="listFields">Champs</RadzenLabel>
-        <RadzenTextArea Name="listFields" id="listFields" Rows="3" @bind-Value="ListToAdd.ListDescription" />
-    </div>
+        @if (Fields != null && Fields.Any())
+        {
+            <div class="flex flex-col">
+                <RadzenLabel>Champs</RadzenLabel>
+                <div class="flex flex-fill w-full justify-between">
+                    <div class="flex flex-col w-1/2">
+                        <RadzenCard>
+                            <RadzenLabel for="listFields">Non sélectionnés</RadzenLabel>
+                            <Dropzone Context="selectable" Items="Fields" TItem="TField" InstantReplace="true" Class="min-h-[50px] flex flex-wrap">
+                                <Shared.StyleDraggable Item="@selectable"></Shared.StyleDraggable>
+                            </Dropzone>
+                        </RadzenCard>
+                    </div>
+                    <div class="flex flex-col justify-center gap-2 mx-2">
+                        <RadzenIcon Icon="arrow_forward" IconStyle="IconStyle.Success" style="font-weight: 800;"></RadzenIcon>
+                        <RadzenIcon Icon="arrow_back" IconStyle="IconStyle.Danger" style="font-weight: 800;"></RadzenIcon>
+                    </div>
+                    <div class="flex flex-col w-1/2">
+                        <RadzenCard>
+                            <RadzenLabel>Sélectionnés</RadzenLabel>
+                            <Dropzone Context="selected" Items="SelectedFields" TItem="TField" InstantReplace="true" Class="min-h-[50px] flex flex-wrap">
+                                <Shared.StyleDraggable Item="@selected"></Shared.StyleDraggable>
+                            </Dropzone>
+                        </RadzenCard>
+                    </div>
+                </div>
+            </div>
+        }
     <div class="flex flex-col">
         <RadzenLabel for="listTeas">Thés</RadzenLabel>
         <RadzenDropDownDataGrid @ref="TeaDataGrid" Chips="true" AllowFiltering="true" AllowSorting="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowClear="true" @bind-Value=@_selectedTeas

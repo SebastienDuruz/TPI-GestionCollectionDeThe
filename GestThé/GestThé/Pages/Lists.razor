@@ -51,12 +51,10 @@
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="TList" Property="ListAddDate" Title="Date d'ajout" Filterable="false" Sortable="true"></RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="TList" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="130px">
+        <RadzenDataGridColumn TItem="TList" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="85px">
             <Template Context="listFunctions">
-                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="file_copy" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1"
-                              Click=@(async args => await DialogService.OpenSideAsync<TeaCopy>("Copier un thé",new Dictionary<string, object>() { { "ListId", (Int32)listFunctions.IdList } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true, Width = "70%"})) @onclick:stopPropagation="true"></RadzenButton>
                 <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1"
-                              Click=@(async args => await DialogService.OpenSideAsync<TeaModify>("Modifier un thé",new Dictionary<string, object>() { { "ListId", (Int32)listFunctions.IdList } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) @onclick:stopPropagation="true"></RadzenButton>
+                              Click=@(async args => await DialogService.OpenSideAsync<TeaModify>("Modifier une liste",new Dictionary<string, object>() { { "ListId", (Int32)listFunctions.IdList } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) @onclick:stopPropagation="true"></RadzenButton>
                 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1" Click="@(async (args) => await DeleteList(listFunctions))" @onclick:stopPropagation="true"></RadzenButton>
             </Template>
         </RadzenDataGridColumn>

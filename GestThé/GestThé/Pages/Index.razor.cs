@@ -108,7 +108,8 @@ public partial class Index
                 .Include(x => x.IdVarietyNavigation)
                 .Include(x => x.IdRegionNavigation)
                 .Include(x => x.IdRegionNavigation.IdCountryNavigation)
-                .Include(x => x.IdProviderNavigation);
+                .Include(x => x.IdProviderNavigation)
+                .Include(x => x.IdLists);
         }
         else
         {
@@ -117,6 +118,7 @@ public partial class Index
                 .Include(x => x.IdRegionNavigation)
                 .Include(x => x.IdRegionNavigation.IdCountryNavigation)
                 .Include(x => x.IdProviderNavigation)
+                .Include(x => x.IdLists)
                 .Where(x => !x.TeaIsArchived.Value);
         }
 
@@ -137,6 +139,7 @@ public partial class Index
             // The value exists in the current Data
             if (CollectionTeas.Contains(teaToDelete))
             {
+                
                 // Remove from database
                 DatabaseContext.Remove<TTea>(teaToDelete);
                 await DatabaseContext.SaveChangesAsync();

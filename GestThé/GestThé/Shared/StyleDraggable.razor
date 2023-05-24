@@ -1,0 +1,12 @@
+﻿@using GestThéLib.Models.Database
+
+@namespace Shared
+
+<div class="mx-1 cursor-pointer">
+    <RadzenBadge IsPill="true" Variant="Variant.Outlined" BadgeStyle="BadgeStyle.Dark" Text="@Item.FieldName" />
+</div>
+
+@code {
+    [Parameter]
+    public TField Item { get; set; }
+}

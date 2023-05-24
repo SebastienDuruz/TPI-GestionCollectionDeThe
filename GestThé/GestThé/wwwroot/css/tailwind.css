@@ -762,6 +762,11 @@ select {
   margin: 1rem;
 }
 
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -846,8 +851,16 @@ select {
   height: 100%;
 }
 
+.min-h-\[50px\] {
+  min-height: 50px;
+}
+
 .\!w-px {
   width: 1px !important;
+}
+
+.w-1\/2 {
+  width: 50%;
 }
 
 .w-1\/4 {
@@ -878,6 +891,10 @@ select {
 
 .animate-spin {
   animation: spin 1s linear infinite;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .flex-col {
