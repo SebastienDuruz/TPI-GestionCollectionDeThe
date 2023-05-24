@@ -17,7 +17,11 @@
     <div class="flex align-bottom justify-between flex-wrap gap-2">
         <div>
             <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Nom</RadzenText>
-            <RadzenTextBox @oninput="@(x => NameOnChange(x.Value.ToString()))" Style="width: 300px;"></RadzenTextBox>
+            <RadzenTextBox @bind-value="_nameSearchValue" @oninput="@(x => NameOnChange(x.Value.ToString()))" Style="width: 600px;"></RadzenTextBox>
+        </div>
+        <div>
+            <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Champ</RadzenText>
+            <RadzenTextBox @bind-value="_fieldsSearchValue" @oninput="@(x => FieldOnChange(x.Value.ToString()))" Style="width: 600px;"></RadzenTextBox>
         </div>
         <div class="flex flex-col align-middle justify-end">
             <RadzenButton Click=@(args => ClearFilters()) Icon="refresh" ButtonStyle="ButtonStyle.Dark" Variant="Variant.Text" Size="ButtonSize.Medium" />
@@ -35,7 +39,7 @@
 
 <RadzenDataGrid @ref="ListsDataGrid" AllowFiltering="false" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowColumnResize="true" AllowAlternatingRows="false" 
                 AllowSorting="true" PageSize="8" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
-                Data="@CollectionLists" TItem="TList" LogicalFilterOperator="LogicalFilterOperator.And" EmptyText="Aucune liste à afficher.">
+                Data="@CollectionLists" TItem="TList" LogicalFilterOperator="LogicalFilterOperator.And" EmptyText="Aucune liste à afficher." Text>
     <Columns>
         <RadzenDataGridColumn TItem="TList" Property="ListName" Title="Nom" Frozen="true">
             <Template Context="list">

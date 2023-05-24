@@ -21,7 +21,12 @@ public partial class Lists
     /// <summary>
     /// Search value for Name
     /// </summary>
-    private string _listNameSearchValue;
+    private string _nameSearchValue;
+    
+    /// <summary>
+    /// Search value for Fields
+    /// </summary>
+    private string _fieldsSearchValue;
     
     /// <summary>
     /// Collection of the Lists of teas
@@ -52,7 +57,17 @@ public partial class Lists
     /// <param name="value">new value</param>
     private void NameOnChange(string value)
     {
-        _listNameSearchValue = value.ToLower();
+        _nameSearchValue = value.ToLower();
+        Search();
+    }
+    
+    /// <summary>
+    /// Update Field method
+    /// </summary>
+    /// <param name="value">new value</param>
+    private void FieldOnChange(string value)
+    {
+        _fieldsSearchValue = value.ToLower();
         Search();
     }
     
@@ -64,8 +79,12 @@ public partial class Lists
         // Fetch the teas from the collection
         CollectionLists = DatabaseContext.TLists.Include(x => x.IdTeas);
 
-        if (!String.IsNullOrWhiteSpace(_listNameSearchValue))
-            CollectionLists = CollectionLists.Where(x => x.ListName.ToLower().Contains(_listNameSearchValue));
+        if (!String.IsNullOrWhiteSpace(_nameSearchValue))
+            CollectionLists = CollectionLists.Where(x => x.ListName.ToLower().Contains(_nameSearchValue));
+
+        if (!String.IsNullOrWhiteSpace(_fieldsSearchValue))
+            CollectionLists = CollectionLists.Where(x =>
+                x.IdFields.Any(field => field.FieldName.ToLower().Contains(_fieldsSearchValue)));
         
         StateHasChanged();
     }
@@ -76,7 +95,8 @@ public partial class Lists
     private void ClearFilters()
     {
         // Reset the values
-        _listNameSearchValue = "";
+        _nameSearchValue = "";
+        _fieldsSearchValue = "";
         
         // Search again to reset default values
         Search();
