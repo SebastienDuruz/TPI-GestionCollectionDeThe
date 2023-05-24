@@ -65,21 +65,22 @@
                 {
                     case "addedtea":
                         NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success,Summary = "Le thé a bien été ajouté !", Duration = 2000, CloseOnClick = true });
-                        NavigationManager.NavigateTo(NavigationManager.BaseUri);
                         break;
                     case "updatedtea":
                         NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Le thé a bien été modifé !", Duration = 2000, CloseOnClick = true });
-                        NavigationManager.NavigateTo(NavigationManager.BaseUri);
                         break;
                     case "copiedtea":
                         NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Une copie du thé a été sauvegardée !", Duration = 2000, CloseOnClick = true });
-                        NavigationManager.NavigateTo(NavigationManager.BaseUri);
                         break;
                     case "deletedtea":
                         NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Le thé a bien été archivé!", Duration = 2000, CloseOnClick = true });
-                        NavigationManager.NavigateTo(NavigationManager.BaseUri);
+                        break;
+                    case "addedlist":
+                        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success,Summary = "La liste a bien été ajoutée !", Duration = 2000, CloseOnClick = true });
                         break;
                 }
+                
+                NavigationManager.NavigateTo(NavigationManager.Uri);
             }
             
             

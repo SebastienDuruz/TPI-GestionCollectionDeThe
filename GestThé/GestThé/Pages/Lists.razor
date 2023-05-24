@@ -1,3 +1,64 @@
 ﻿@page "/lists"
 
-<h3>Lists</h3>
+@using GestThéLib.Data.Database
+@using GestThéLib.Models.Database
+
+@inject DatabaseContext DatabaseContext
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+
+<PageTitle>GestThé - Listes</PageTitle>
+
+<RadzenText TextStyle="TextStyle.H6">Listes de thés</RadzenText>
+
+<div class="my-8">
+    <RadzenText Text="Filtres" TextStyle="TextStyle.Subtitle1"></RadzenText>
+    <div class="flex align-bottom justify-between flex-wrap gap-2">
+        <div>
+            <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Nom</RadzenText>
+            <RadzenTextBox @oninput="@(x => NameOnChange(x.Value.ToString()))" Style="width: 300px;"></RadzenTextBox>
+        </div>
+        <div class="flex flex-col align-middle justify-end">
+            <RadzenButton Click=@(args => ClearFilters()) Icon="refresh" ButtonStyle="ButtonStyle.Dark" Variant="Variant.Text" Size="ButtonSize.Medium" />
+        </div>
+    </div>
+</div>
+
+<div class="my-6">
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Stretch" JustifyContent="JustifyContent.End">
+        <div>
+            <RadzenButton Text="Nouvelle liste" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" Click=@(async args => await DialogService.OpenSideAsync<ListAdd>("Ajouter une liste", options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true, Width = "100%"})) />
+        </div>
+    </RadzenStack>
+</div>
+
+<RadzenDataGrid @ref="ListsDataGrid" AllowFiltering="false" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowColumnResize="true" AllowAlternatingRows="false" 
+                AllowSorting="true" PageSize="8" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
+                Data="@CollectionLists" TItem="TList" LogicalFilterOperator="LogicalFilterOperator.And" EmptyText="Aucune liste à afficher.">
+    <Columns>
+        <RadzenDataGridColumn TItem="TList" Property="ListName" Title="Nom" Frozen="true">
+            <Template Context="list">
+                @{
+                    string detailPage = $"/list/{list.IdList}";
+                }
+                <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Secondary" Click="() => NavigationManager.NavigateTo(detailPage, true)">@list.ListName</RadzenButton>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TList" Title="Nombre d'éléments" Filterable="false" Sortable="true">
+            <Template Context="counter">
+                @counter.IdTeas.Count
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TList" Property="ListAddDate" Title="Date d'ajout" Filterable="false" Sortable="true"></RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TList" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="130px">
+            <Template Context="listFunctions">
+                <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="file_copy" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1"
+                              Click=@(async args => await DialogService.OpenSideAsync<TeaCopy>("Copier un thé",new Dictionary<string, object>() { { "ListId", (Int32)listFunctions.IdList } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true, Width = "70%"})) @onclick:stopPropagation="true"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1"
+                              Click=@(async args => await DialogService.OpenSideAsync<TeaModify>("Modifier un thé",new Dictionary<string, object>() { { "ListId", (Int32)listFunctions.IdList } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) @onclick:stopPropagation="true"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1" Click="@(async (args) => await DeleteList(listFunctions))" @onclick:stopPropagation="true"></RadzenButton>
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
