@@ -758,6 +758,14 @@ select {
   margin: -1px !important;
 }
 
+.m-0 {
+  margin: 0px;
+}
+
+.m-0\.5 {
+  margin: 0.125rem;
+}
+
 .m-4 {
   margin: 1rem;
 }

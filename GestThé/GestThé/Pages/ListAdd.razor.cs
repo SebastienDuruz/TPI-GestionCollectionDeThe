@@ -74,6 +74,24 @@ public partial class ListAdd
     }
 
     /// <summary>
+    /// Select all the fields at once
+    /// </summary>
+    private void SelectAllFields()
+    {
+        Fields.Clear();
+        SelectedFields = DatabaseContext.TFields.ToList();
+    }
+
+    /// <summary>
+    /// Clear all the fields at once
+    /// </summary>
+    private void ClearFields()
+    {
+        Fields = DatabaseContext.TFields.ToList();
+        SelectedFields.Clear();
+    }
+
+    /// <summary>
     /// Handle the list add process
     /// </summary>
     private async Task HandleListAdd()
@@ -83,7 +101,7 @@ public partial class ListAdd
             ListToAdd.IdTeas.Add(tea);
 
         // If user select at least 1 field
-        if (_selectedTeas.Any())
+        if (SelectedFields.Any())
             ListToAdd.IdFields = SelectedFields.ToList();
         // No field selected, set the default one
         else

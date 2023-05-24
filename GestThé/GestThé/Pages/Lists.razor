@@ -45,7 +45,19 @@
                 <RadzenButton Variant="Variant.Text" ButtonStyle="ButtonStyle.Secondary" Click="() => NavigationManager.NavigateTo(detailPage, true)">@list.ListName</RadzenButton>
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="TList" Title="Nombre d'éléments" Filterable="false" Sortable="true">
+        <RadzenDataGridColumn TItem="TList" Title="Champs" Filterable="false" Sortable="false">
+            <Template Context="fields">
+                <div class="flex flex-wrap">
+                    @foreach (TField field in fields.IdFields)
+                    {
+                        <div class="m-0.5">
+                            <RadzenBadge IsPill="true" Variant="Variant.Outlined" BadgeStyle="BadgeStyle.Dark" Text="@field.FieldName"/>
+                        </div>
+                    }
+                </div>
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="TList" Title="Nombre de thé" Filterable="false" Sortable="true">
             <Template Context="counter">
                 @counter.IdTeas.Count
             </Template>
@@ -54,7 +66,7 @@
         <RadzenDataGridColumn TItem="TList" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="85px">
             <Template Context="listFunctions">
                 <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1"
-                              Click=@(async args => await DialogService.OpenSideAsync<TeaModify>("Modifier une liste",new Dictionary<string, object>() { { "ListId", (Int32)listFunctions.IdList } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) @onclick:stopPropagation="true"></RadzenButton>
+                              Click=@(async args => await DialogService.OpenSideAsync<ListModify>($"Modification de la liste {listFunctions.ListName}",new Dictionary<string, object>() { { "ListId", listFunctions.IdList } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true, Width = "100%"})) @onclick:stopPropagation="true"></RadzenButton>
                 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1" Click="@(async (args) => await DeleteList(listFunctions))" @onclick:stopPropagation="true"></RadzenButton>
             </Template>
         </RadzenDataGridColumn>

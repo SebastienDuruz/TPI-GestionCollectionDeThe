@@ -78,9 +78,13 @@
                     case "addedlist":
                         NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success,Summary = "La liste a bien été ajoutée !", Duration = 2000, CloseOnClick = true });
                         break;
+                    case "updatedlist":
+                        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success,Summary = "La liste a bien été modifiée !", Duration = 2000, CloseOnClick = true });
+                        break;
                 }
                 
-                NavigationManager.NavigateTo(NavigationManager.Uri);
+                // Navigate to the current page after removing the parameters from URI
+                NavigationManager.NavigateTo(NavigationManager.Uri.Split("?")[0]);
             }
             
             

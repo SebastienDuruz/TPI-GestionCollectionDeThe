@@ -23,7 +23,7 @@
         <RadzenLabel for="listDescription">Description</RadzenLabel>
         <RadzenTextArea Name="listDescription" id="listDescription" Rows="3" @bind-Value="ListToAdd.ListDescription" />
     </div>
-        @if (Fields != null && Fields.Any())
+        @if (Fields != null)
         {
             <div class="flex flex-col">
                 <RadzenLabel>Champs</RadzenLabel>
@@ -37,8 +37,8 @@
                         </RadzenCard>
                     </div>
                     <div class="flex flex-col justify-center gap-2 mx-2">
-                        <RadzenIcon Icon="arrow_forward" IconStyle="IconStyle.Success" style="font-weight: 800;"></RadzenIcon>
-                        <RadzenIcon Icon="arrow_back" IconStyle="IconStyle.Danger" style="font-weight: 800;"></RadzenIcon>
+                        <RadzenButton Icon="arrow_forward" ButtonStyle="ButtonStyle.Success" style="font-weight: 800;" Click="SelectAllFields"></RadzenButton>
+                        <RadzenButton Icon="arrow_back" ButtonStyle="ButtonStyle.Danger" style="font-weight: 800;" Click="ClearFields"></RadzenButton>
                     </div>
                     <div class="flex flex-col w-1/2">
                         <RadzenCard>
@@ -71,7 +71,7 @@
                 </Columns>
             </RadzenDropDownDataGrid>
     </div>
-    <div class="flex justify-between">
+    <div class="flex justify-end">
         <RadzenButton type="submit">Valider</RadzenButton>
     </div>
     <div class="flex justify-end">
