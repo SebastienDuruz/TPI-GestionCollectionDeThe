@@ -66,7 +66,7 @@
                 AllowSorting="true" PageSize="8" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
                 Data="@CollectionTeas" TItem="TTea" LogicalFilterOperator="LogicalFilterOperator.And" EmptyText="Aucun thé à afficher.">
     <Columns>
-        <RadzenDataGridColumn TItem="TTea" Property="TeaName" Title="Nom" Frozen="true">
+        <RadzenDataGridColumn TItem="TTea" Property="TeaName" Title="Nom">
             <Template Context="tea">
                 @{
                     string detailPage = $"/tea/{tea.IdTea}";

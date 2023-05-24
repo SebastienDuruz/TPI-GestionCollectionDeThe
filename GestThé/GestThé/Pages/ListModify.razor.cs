@@ -25,7 +25,7 @@ public partial class ListModify
     /// <summary>
     /// Teas that has been selected on the datagrid
     /// </summary>
-    private IEnumerable<TTea> _selectedTeas = new List<TTea>();
+    private IEnumerable<TTea> _selectedTeas;
     
     /// <summary>
     /// Id of the tea to show
@@ -75,7 +75,7 @@ public partial class ListModify
         SelectedFields = ListToModify.IdFields.ToList();
         Fields = DatabaseContext.TFields.Where(x => !SelectedFields.Contains(x)).ToList();
 
-        _selectedTeas = ListToModify.IdTeas;
+        _selectedTeas = ListToModify.IdTeas.ToList();
         
         // Fetch the list of teas for Datagrid
         Teas = DatabaseContext.TTeas.Where(x => x.TeaIsArchived == false);

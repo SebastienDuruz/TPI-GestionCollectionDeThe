@@ -41,7 +41,7 @@
                 AllowSorting="true" PageSize="8" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
                 Data="@CollectionLists" TItem="TList" LogicalFilterOperator="LogicalFilterOperator.And" EmptyText="Aucune liste à afficher." Text>
     <Columns>
-        <RadzenDataGridColumn TItem="TList" Property="ListName" Title="Nom" Frozen="true">
+        <RadzenDataGridColumn TItem="TList" Property="ListName" Title="Nom">
             <Template Context="list">
                 @{
                     string detailPage = $"/list/{list.IdList}";

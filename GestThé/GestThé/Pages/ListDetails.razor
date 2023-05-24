@@ -1,1 +1,102 @@
-﻿<h3>ListDetails</h3>
+﻿@page "/list/{ListId:long}"
+
+@using GestThéLib.Data.Database
+@using GestThéLib.Models.Database
+@using System.Globalization
+
+@inject DatabaseContext DatabaseContext
+@inject NavigationManager NavigationManager
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+
+<RadzenText TextStyle="TextStyle.H6">Détail d'une liste</RadzenText>
+
+<div class="my-12 flex justify-center">
+    <RadzenStack Orientation="Orientation.Vertical" Gap="20px" JustifyContent="JustifyContent.SpaceBetween" Style="width: 1400px;">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+            <div>
+                <RadzenText TextStyle="TextStyle.H6">Nom</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1">@List.ListName</RadzenText>
+            </div>
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
+            <div>
+                <RadzenText TextStyle="TextStyle.H6">Description</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1">@List.ListDescription</RadzenText>
+            </div>
+            <div class="flex gap-8">
+                <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" 
+                              Click=@(async args => await DialogService.OpenSideAsync<ListModify>($"Modification de la liste {List.ListName}",new Dictionary<string, object>() { { "ListId", List.IdList } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true, Width = "100%"})) @onclick:stopPropagation="true"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="print" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
+                              @onclick:stopPropagation="true"></RadzenButton>
+                <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="download" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" 
+                              @onclick:stopPropagation="true"></RadzenButton>
+            </div>
+        </RadzenStack>
+        <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.SpaceBetween">
+            <RadzenText TextStyle="TextStyle.H6">Thés</RadzenText>
+            <RadzenDataGrid @ref="TeaDataGrid" AllowFiltering="false" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowColumnResize="true" AllowAlternatingRows="false" 
+                            AllowSorting="true" PageSize="20" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
+                            Data="@TeaList" TItem="TTea" LogicalFilterOperator="LogicalFilterOperator.And" EmptyText="Aucun thé à afficher.">
+                <Columns>
+                    @if (List.IdFields.Any(x => x.FieldName == "nom"))
+                    {
+                        <RadzenDataGridColumn TItem="TTea" Property="TeaName" Title="Nom"></RadzenDataGridColumn>
+                    }
+                    @if (List.IdFields.Any(x => x.FieldName == "description"))
+                    {
+                        <RadzenDataGridColumn TItem="TTea" Property="TeaDescription" Title="Description" Frozen="false"></RadzenDataGridColumn>
+                    }
+                    @if (List.IdFields.Any(x => x.FieldName == "variété"))
+                    {
+                        <RadzenDataGridColumn TItem="TTea" Property="TVariety.VarietyName" Title="Variété" Filterable="true" Sortable="false">
+                            <Template Context="tea">
+                                @tea.IdVarietyNavigation.VarietyName
+                            </Template>
+                        </RadzenDataGridColumn>
+                    }
+                    @if (List.IdFields.Any(x => x.FieldName == "type"))
+                    {
+                        <RadzenDataGridColumn TItem="TTea" Property="TType.TypeName" Title="Type" Filterable="true" Sortable="false">
+                            <Template Context="tea">
+                                @tea.IdTypeNavigation.TypeName
+                            </Template>
+                        </RadzenDataGridColumn>
+                    }
+                    @if (List.IdFields.Any(x => x.FieldName == "provenance"))
+                    {
+                        <RadzenDataGridColumn TItem="TTea" Property="TCountry.CountryName" Title="Pays / Région" Filterable="true" Sortable="false">
+                            <Template Context="tea">
+                                @($"{tea.IdRegionNavigation.IdCountryNavigation.CountryName} / {tea.IdRegionNavigation.RegionName}")
+                            </Template>
+                        </RadzenDataGridColumn>
+                    }
+                    @if (List.IdFields.Any(x => x.FieldName == "fournisseur"))
+                    {
+                        <RadzenDataGridColumn TItem="TTea" Property="TProvider.ProviderName" Title="Fournisseur" Filterable="true" Sortable="false">
+                            <Template Context="tea">
+                                @($"{tea.IdProviderNavigation.ProviderName}")
+                            </Template>
+                        </RadzenDataGridColumn>
+                    }
+                    @if (List.IdFields.Any(x => x.FieldName == "prix"))
+                    {
+                        <RadzenDataGridColumn TItem="TTea" Property="TeaPrice" Filterable="true" Title="Prix 100g" Width="100px">
+                            <Template Context="price">
+                                @($"{price.TeaPrice.Value.ToString("C", CultureInfo.CurrentCulture)}")
+                            </Template>
+                        </RadzenDataGridColumn>
+                    }
+                    @if (List.IdFields.Any(x => x.FieldName == "quantité"))
+                    {
+                        <RadzenDataGridColumn TItem="TTea" Property="TeaQuantity" Filterable="true" Title="Quantité" Width="70px"></RadzenDataGridColumn>
+                    }
+                    @if (List.IdFields.Any(x => x.FieldName == "année"))
+                    {
+                        <RadzenDataGridColumn TItem="TTea" Property="TeaYear" Filterable="true" Title="Année" Width="70px"></RadzenDataGridColumn>
+                    }
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenStack>
+    </RadzenStack>
+</div>
