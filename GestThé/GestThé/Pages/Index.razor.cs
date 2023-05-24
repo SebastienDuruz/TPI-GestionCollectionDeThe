@@ -5,8 +5,6 @@
 * Description : Index Component logic
 */
 
-using System.Collections;
-using ElectronNET.API.Entities;
 using GestThéLib.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
@@ -21,13 +19,44 @@ public partial class Index
     /// </summary>
     private bool _showArchived;
 
+    /// <summary>
+    /// Search value for Name
+    /// </summary>
     private string _teaNameSearchValue;
+    
+    /// <summary>
+    /// Search value for Variety
+    /// </summary>
     private string _teaVarietySearchValue;
+    
+    /// <summary>
+    /// Search value for Type
+    /// </summary>
     private string _teaTypeSearchValue;
+    
+    /// <summary>
+    /// Search value for Region
+    /// </summary>
     private string _teaRegionSearchValue;
+    
+    /// <summary>
+    /// Search value for Min Price
+    /// </summary>
     private double _teaMinPriceSearchValue;
+    
+    /// <summary>
+    /// Search value for Max Price
+    /// </summary>
     private double _teaMaxPriceSearchValue;
+    
+    /// <summary>
+    /// Search value for Years
+    /// </summary>
     private List<long> _teaYearSearchValues;
+    
+    /// <summary>
+    /// Values for the filter : Years
+    /// </summary>
     private List<long> _teaYearsValues;
 
     /// <summary>
@@ -79,7 +108,8 @@ public partial class Index
                 .Include(x => x.IdVarietyNavigation)
                 .Include(x => x.IdRegionNavigation)
                 .Include(x => x.IdRegionNavigation.IdCountryNavigation)
-                .Include(x => x.IdProviderNavigation);
+                .Include(x => x.IdProviderNavigation)
+                .Include(x => x.IdLists);
         }
         else
         {
@@ -88,6 +118,7 @@ public partial class Index
                 .Include(x => x.IdRegionNavigation)
                 .Include(x => x.IdRegionNavigation.IdCountryNavigation)
                 .Include(x => x.IdProviderNavigation)
+                .Include(x => x.IdLists)
                 .Where(x => !x.TeaIsArchived.Value);
         }
 
@@ -96,18 +127,19 @@ public partial class Index
     }
 
     /// <summary>
-    /// Delete (soft delete) the specific tea if user confirm the Dialog
+    /// Delete (hard delete) the specific tea if user confirm the Dialog
     /// </summary>
-    /// <param name="teaToDelete">The tea to delete (soft delete)</param>
+    /// <param name="teaToDelete">The tea to delete (hard delete)</param>
     async Task DeleteTea(TTea teaToDelete)
     {
-        var result = await DialogService.Confirm($"Voulez-vous vraiment archiver le thé {teaToDelete.TeaName} ?", "Archiver un thé", new ConfirmOptions() { OkButtonText = "Oui", CancelButtonText = "Non", CloseDialogOnOverlayClick = true});
+        var result = await DialogService.Confirm($"Voulez-vous vraiment supprimer le thé {teaToDelete.TeaName} ?", "Supprimer un thé", new ConfirmOptions() { OkButtonText = "Oui", CancelButtonText = "Non", CloseDialogOnOverlayClick = true});
 
         if (result.HasValue && result.Value)
         {
             // The value exists in the current Data
             if (CollectionTeas.Contains(teaToDelete))
             {
+                
                 // Remove from database
                 DatabaseContext.Remove<TTea>(teaToDelete);
                 await DatabaseContext.SaveChangesAsync();

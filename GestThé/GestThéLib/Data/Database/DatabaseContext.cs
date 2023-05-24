@@ -33,8 +33,7 @@ public partial class DatabaseContext : DbContext
     public virtual DbSet<TVariety> TVarieties { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlite("Data Source=gestTea.db;");
+        => optionsBuilder.UseSqlite("Data Source=gestTea.db;Foreign Keys=False").EnableSensitiveDataLogging();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -81,10 +80,10 @@ public partial class DatabaseContext : DbContext
                     "TDefined",
                     r => r.HasOne<TField>().WithMany()
                         .HasForeignKey("IdField")
-                        .OnDelete(DeleteBehavior.ClientSetNull),
+                        .OnDelete(DeleteBehavior.ClientCascade),
                     l => l.HasOne<TList>().WithMany()
                         .HasForeignKey("IdList")
-                        .OnDelete(DeleteBehavior.ClientSetNull),
+                        .OnDelete(DeleteBehavior.ClientCascade),
                     j =>
                     {
                         j.HasKey("IdList", "IdField");
@@ -170,10 +169,10 @@ public partial class DatabaseContext : DbContext
                     "TContain",
                     r => r.HasOne<TList>().WithMany()
                         .HasForeignKey("IdList")
-                        .OnDelete(DeleteBehavior.ClientSetNull),
+                        .OnDelete(DeleteBehavior.ClientCascade),
                     l => l.HasOne<TTea>().WithMany()
                         .HasForeignKey("IdTea")
-                        .OnDelete(DeleteBehavior.ClientSetNull),
+                        .OnDelete(DeleteBehavior.ClientCascade),
                     j =>
                     {
                         j.HasKey("IdTea", "IdList");

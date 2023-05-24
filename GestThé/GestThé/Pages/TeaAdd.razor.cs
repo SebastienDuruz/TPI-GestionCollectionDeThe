@@ -18,7 +18,7 @@ public partial class TeaAdd
     /// <summary>
     /// The Tea to add
     /// </summary>
-    public TTea TeaToAdd { get; set; }
+    private TTea TeaToAdd { get; set; }
     
     /// <summary>
     /// List of the 30 last years

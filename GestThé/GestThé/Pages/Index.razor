@@ -18,19 +18,19 @@
     <div class="flex align-bottom justify-between flex-wrap gap-2">
         <div>
             <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Nom</RadzenText>
-            <RadzenTextBox @oninput="@(x => NameOnChange(x.Value.ToString()))" Style="width: 300px;"></RadzenTextBox>
+            <RadzenTextBox @bind-value="_teaNameSearchValue" @oninput="@(x => NameOnChange(x.Value.ToString()))" Style="width: 300px;"></RadzenTextBox>
         </div>
         <div>
             <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Variété</RadzenText>
-            <RadzenTextBox @oninput="@(x => VarietyOnChange(x.Value.ToString()))"></RadzenTextBox>
+            <RadzenTextBox @bind-value="_teaVarietySearchValue" @oninput="@(x => VarietyOnChange(x.Value.ToString()))"></RadzenTextBox>
         </div>
         <div>
             <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Type</RadzenText>
-            <RadzenTextBox @oninput="@(x => TypeOnChange(x.Value.ToString()))"></RadzenTextBox>
+            <RadzenTextBox @bind-value="_teaTypeSearchValue" @oninput="@(x => TypeOnChange(x.Value.ToString()))"></RadzenTextBox>
         </div>
         <div>
             <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Pays / Région</RadzenText>
-            <RadzenTextBox @oninput="@(x => RegionOnChange(x.Value.ToString()))"></RadzenTextBox>
+            <RadzenTextBox @bind-value="_teaRegionSearchValue" @oninput="@(x => RegionOnChange(x.Value.ToString()))"></RadzenTextBox>
         </div>
         <div>
             <RadzenText TextStyle="TextStyle.Body2" TagName="TagName.H3">Prix minimum</RadzenText>
@@ -66,7 +66,7 @@
                 AllowSorting="true" PageSize="8" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
                 Data="@CollectionTeas" TItem="TTea" LogicalFilterOperator="LogicalFilterOperator.And" EmptyText="Aucun thé à afficher.">
     <Columns>
-        <RadzenDataGridColumn TItem="TTea" Property="TeaName" Title="Nom" Frozen="true">
+        <RadzenDataGridColumn TItem="TTea" Property="TeaName" Title="Nom">
             <Template Context="tea">
                 @{
                     string detailPage = $"/tea/{tea.IdTea}";

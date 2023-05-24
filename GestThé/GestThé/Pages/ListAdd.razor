@@ -1,1 +1,80 @@
-﻿<h3>ListAdd</h3>
+﻿@page "/listadd"
+
+@using GestThéLib.Data.Database
+@using GestThéLib.Models.Database
+@using Microsoft.AspNetCore.Components
+
+@inject DatabaseContext DatabaseContext
+@inject NavigationManager NavigationManager
+@inject NotificationService NotificationService
+
+<RadzenTemplateForm Context="listForm" class="flex flex-col gap-4 align-middle m-4" TItem="TList" 
+                    Data="@ListToAdd" Submit="@HandleListAdd" >
+    <DataAnnotationsValidator />
+    <div class="flex flex-col">
+        <RadzenLabel for="listName">Nom *</RadzenLabel>
+        <RadzenTextBox type="text" Name="listName" id="listName" @bind-Value="ListToAdd.ListName" />
+        <div class="flex justify-end">
+            <RadzenRequiredValidator Component="listName" Text="Le nom de la liste est requis" Popup="false" />
+            <RadzenLengthValidator Component="listName" Max="50" Text="Le nom de la liste ne peut pas faire plus de 50 charactères" />
+        </div>
+    </div>
+    <div class="flex flex-col">
+        <RadzenLabel for="listDescription">Description</RadzenLabel>
+        <RadzenTextArea Name="listDescription" id="listDescription" Rows="3" @bind-Value="ListToAdd.ListDescription" />
+    </div>
+        @if (Fields != null)
+        {
+            <div class="flex flex-col">
+                <RadzenLabel>Champs</RadzenLabel>
+                <div class="flex flex-fill w-full justify-between">
+                    <div class="flex flex-col w-1/2">
+                        <RadzenCard>
+                            <RadzenLabel for="listFields">Non sélectionnés</RadzenLabel>
+                            <Dropzone Context="selectable" Items="Fields" TItem="TField" InstantReplace="true" Class="min-h-[50px] flex flex-wrap">
+                                <Shared.StyleDraggable Item="@selectable"></Shared.StyleDraggable>
+                            </Dropzone>
+                        </RadzenCard>
+                    </div>
+                    <div class="flex flex-col justify-center gap-2 mx-2">
+                        <RadzenButton Icon="arrow_forward" ButtonStyle="ButtonStyle.Success" style="font-weight: 800;" Click="SelectAllFields"></RadzenButton>
+                        <RadzenButton Icon="arrow_back" ButtonStyle="ButtonStyle.Danger" style="font-weight: 800;" Click="ClearFields"></RadzenButton>
+                    </div>
+                    <div class="flex flex-col w-1/2">
+                        <RadzenCard>
+                            <RadzenLabel>Sélectionnés</RadzenLabel>
+                            <Dropzone Context="selected" Items="SelectedFields" TItem="TField" InstantReplace="true" Class="min-h-[50px] flex flex-wrap">
+                                <Shared.StyleDraggable Item="@selected"></Shared.StyleDraggable>
+                            </Dropzone>
+                        </RadzenCard>
+                    </div>
+                </div>
+            </div>
+        }
+    <div class="flex flex-col">
+        <RadzenLabel for="listTeas">Thés</RadzenLabel>
+        <RadzenDropDownDataGrid @ref="TeaDataGrid" Chips="true" AllowFiltering="true" AllowSorting="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowClear="true" @bind-Value=@_selectedTeas
+                                    Multiple="true" Placeholder="Selectionner les thés..." Data=@Teas TextProperty="TeaName">
+                <Columns>
+                    <RadzenDropDownDataGridColumn Width="60px" Sortable="false">
+                        <HeaderTemplate>
+                            <RadzenCheckBox Disabled="@(!TeaDataGrid.AllowSelectAll)" TriState="false" TValue="bool" Value="@(Teas.Any(c => _selectedTeas != null && _selectedTeas.Contains(c)))"
+                                            Change="@(args => _selectedTeas = args ? TeaDataGrid.View.Cast<TTea>() : _selectedTeas = Enumerable.Empty<TTea>())" />
+                        </HeaderTemplate>
+                        <Template Context="data">
+                            <RadzenCheckBox TriState="false" Value="@(_selectedTeas != null && _selectedTeas.Contains(((TTea) data)))"
+                                            TValue="bool" Change=@(args => TeaDataGrid.SelectItem(data)) @onclick:stopPropagation/>
+                        </Template>
+                    </RadzenDropDownDataGridColumn>
+                    <RadzenDropDownDataGridColumn Property="TeaName" Title="Nom" Width="120px" Filterable="true" Sortable="true"/>
+                    <RadzenDropDownDataGridColumn Property="TeaYear" Title="Année" Width="200px" Filterable="true" Sortable="true" />
+                </Columns>
+            </RadzenDropDownDataGrid>
+    </div>
+    <div class="flex justify-end">
+        <RadzenButton type="submit">Valider</RadzenButton>
+    </div>
+    <div class="flex justify-end">
+        <RadzenText TextStyle="TextStyle.Overline">* Champs obligatoire</RadzenText>
+    </div>
+</RadzenTemplateForm>

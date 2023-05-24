@@ -1,6 +1,7 @@
 using ElectronNET.API;
 using GestThéLib.Data.Database;
 using GestThéLib.Data.Electron;
+using Plk.Blazor.DragDrop;
 using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSignalR();
 builder.Services.AddLocalization();
+
+// Blazor DragDrop library
+builder.Services.AddBlazorDragDrop();
 
 // Set the web-host to ElectronNET
 builder.WebHost.UseElectron(args);
