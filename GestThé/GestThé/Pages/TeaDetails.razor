@@ -7,7 +7,7 @@
 
 <div class="flex justify-between">
     <RadzenText TextStyle="TextStyle.H6">Détail @(Tea.TeaName)</RadzenText>
-    <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="keyboard_return" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
+    <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="keyboard_return" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
                   Click="@((args) => ReturnToHome())" @onclick:stopPropagation="true">
     </RadzenButton>
 </div>
@@ -61,7 +61,14 @@
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
             <div>
                 <RadzenText TextStyle="TextStyle.H6">Description</RadzenText>
-                <RadzenText TextStyle="TextStyle.Body1">@Tea.TeaDescription</RadzenText>
+                @if (String.IsNullOrWhiteSpace(Tea.TeaDescription))
+                {
+                    <RadzenText TextStyle="TextStyle.Body1">/</RadzenText>
+                }
+                else
+                {
+                    <RadzenText TextStyle="TextStyle.Body1">@Tea.TeaDescription</RadzenText>
+                }
             </div>
         </RadzenStack>
     </RadzenStack>

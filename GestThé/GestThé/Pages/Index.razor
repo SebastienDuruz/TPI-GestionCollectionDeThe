@@ -57,7 +57,7 @@
             <RadzenLabel Text="Afficher les thés archivés ?" Component="archivedCheckbox" Style="margin-left: 8px; vertical-align: middle;"/>
         </div>
         <div>
-            <RadzenButton Text="Nouveau thé" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" Click=@(async args => await DialogService.OpenSideAsync<TeaAdd>("Ajouter un thé", options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) />
+            <RadzenButton Text="Nouveau thé" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" Click=@(async args => await DialogService.OpenSideAsync<TeaAdd>("Ajouter un thé", options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true, Width = "40%"})) />
         </div>
     </RadzenStack>
 </div>
@@ -105,9 +105,9 @@
         <RadzenDataGridColumn TItem="TTea" Context="tea" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="130px">
             <Template Context="teaFunctions">
                 <RadzenButton ButtonStyle="ButtonStyle.Info" Icon="file_copy" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1"
-                              Click=@(async args => await DialogService.OpenSideAsync<TeaCopy>("Copier un thé",new Dictionary<string, object>() { { "TeaId", (Int32)teaFunctions.IdTea } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) @onclick:stopPropagation="true"></RadzenButton>
+                              Click=@(async args => await DialogService.OpenSideAsync<TeaCopy>("Copier un thé",new Dictionary<string, object>() { { "TeaId", (Int32)teaFunctions.IdTea } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true, Width = "40%"})) @onclick:stopPropagation="true"></RadzenButton>
                 <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1"
-                              Click=@(async args => await DialogService.OpenSideAsync<TeaModify>("Modifier un thé",new Dictionary<string, object>() { { "TeaId", (Int32)teaFunctions.IdTea } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true})) @onclick:stopPropagation="true"></RadzenButton>
+                              Click=@(async args => await DialogService.OpenSideAsync<TeaModify>("Modifier un thé",new Dictionary<string, object>() { { "TeaId", (Int32)teaFunctions.IdTea } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true, Width = "40%"})) @onclick:stopPropagation="true"></RadzenButton>
                 <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Small" class="my-1 ms-1" Click="@(async (args) => await DeleteTea(teaFunctions))" @onclick:stopPropagation="true"></RadzenButton>
             </Template>
         </RadzenDataGridColumn>
