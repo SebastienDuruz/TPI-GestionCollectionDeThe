@@ -4,12 +4,21 @@
 
 @inject DatabaseContext DatabaseContext
 @inject NavigationManager NavigationManager
+@inject DialogService DialogService
 
 <div class="flex justify-between">
-    <RadzenText TextStyle="TextStyle.H6">Détail @(Tea.TeaName)</RadzenText>
-    <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="keyboard_return" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
-                  Click="@((args) => ReturnToHome())" @onclick:stopPropagation="true">
-    </RadzenButton>
+    <div>
+        <RadzenText TextStyle="TextStyle.H6">Détail @(Tea.TeaName)</RadzenText>
+    </div>
+    <div>
+        <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1 mx-2" 
+                Click=@(async args => await DialogService.OpenSideAsync<TeaModify>("Modifier un thé",new Dictionary<string, object>() { { "TeaId", (Int32)Tea.IdTea } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true, Width = "40%"})) @onclick:stopPropagation="true"></RadzenButton>
+                        
+        <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="keyboard_return" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
+                      Click="@((args) => ReturnToHome())" @onclick:stopPropagation="true">
+        </RadzenButton>
+    </div>
+    
 </div>
 
 <div class="my-12 flex justify-center">
