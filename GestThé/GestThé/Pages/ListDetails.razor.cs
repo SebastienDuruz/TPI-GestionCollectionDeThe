@@ -60,4 +60,12 @@ public partial class ListDetails
             .Include(x => x.IdTypeNavigation)
             .Include(x => x.IdLists).Where(x => x.IdLists.Contains(List));
     }
+    
+    /// <summary>
+    /// Navigate back to Listspage
+    /// </summary>
+    private async Task ReturnToLists()
+    {
+        NavigationManager.NavigateTo(Path.Combine($"{NavigationManager.BaseUri}", "lists"));
+    }
 }

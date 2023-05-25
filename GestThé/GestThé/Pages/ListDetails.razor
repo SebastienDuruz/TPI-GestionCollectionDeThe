@@ -9,7 +9,12 @@
 @inject DialogService DialogService
 @inject NotificationService NotificationService
 
-<RadzenText TextStyle="TextStyle.H6">Détail d'une liste</RadzenText>
+<div class="flex justify-between">
+    <RadzenText TextStyle="TextStyle.H6">Détail d'une liste</RadzenText>
+    <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="keyboard_return" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
+        Click="@((args) => ReturnToLists())" @onclick:stopPropagation="true">
+    </RadzenButton>
+</div>
 
 <div class="my-12 flex justify-center">
     <RadzenStack Orientation="Orientation.Vertical" Gap="20px" JustifyContent="JustifyContent.SpaceBetween" Style="width: 1400px;">
@@ -22,7 +27,14 @@
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
             <div>
                 <RadzenText TextStyle="TextStyle.H6">Description</RadzenText>
-                <RadzenText TextStyle="TextStyle.Body1">@List.ListDescription</RadzenText>
+                @if (String.IsNullOrWhiteSpace(List.ListDescription))
+                {
+                    <RadzenText TextStyle="TextStyle.Body1">/</RadzenText>
+                }
+                else
+                {
+                    <RadzenText TextStyle="TextStyle.Body1">@List.ListDescription</RadzenText>
+                }
             </div>
             <div class="flex gap-8">
                 <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" 
