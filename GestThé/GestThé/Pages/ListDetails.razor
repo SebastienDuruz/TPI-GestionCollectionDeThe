@@ -23,6 +23,14 @@
                 <RadzenText TextStyle="TextStyle.H6">Nom</RadzenText>
                 <RadzenText TextStyle="TextStyle.Body1">@List.ListName</RadzenText>
             </div>
+            <div>
+                <RadzenText TextStyle="TextStyle.H6" TextAlign="TextAlign.Center">Date d'ajout</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Center">@List.ListAddDate</RadzenText>
+            </div>
+            <div>
+                <RadzenText TextStyle="TextStyle.H6" TextAlign="TextAlign.End">Dernière modification</RadzenText>
+                <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.End">@List.ListModificationDate</RadzenText>
+            </div>
         </RadzenStack>
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.SpaceBetween">
             <div>
@@ -40,7 +48,7 @@
                 <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" 
                               Click=@(async args => await DialogService.OpenSideAsync<ListModify>($"Modification de la liste {List.ListName}",new Dictionary<string, object>() { { "ListId", List.IdList } }, options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true, Width = "100%"})) @onclick:stopPropagation="true"></RadzenButton>
                 <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="print" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
-                              @onclick:stopPropagation="true"></RadzenButton>
+                              @onclick:stopPropagation="true" Click=@(async args => await DialogService.OpenAsync<PrintPDF>("Aperçu avant impression", new Dictionary<string, object>() { {"ListId", List.IdList} }, options: new DialogOptions() { CloseDialogOnOverlayClick = true, Draggable = false, Resizable = false, ShowClose = true, Width = "800px", Height = "90%"}))></RadzenButton>
                 <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="download" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" 
                               @onclick:stopPropagation="true"></RadzenButton>
             </div>
@@ -79,7 +87,14 @@
                     {
                         <RadzenDataGridColumn TItem="TTea" Property="TCountry.CountryName" Title="Pays / Région" Filterable="true" Sortable="false">
                             <Template Context="tea">
-                                @($"{tea.IdRegionNavigation.IdCountryNavigation.CountryName} / {tea.IdRegionNavigation.RegionName}")
+                                @if (String.IsNullOrWhiteSpace(tea.IdRegionNavigation.RegionName))
+                                {
+                                    @($"{tea.IdRegionNavigation.IdCountryNavigation.CountryName}")
+                                }
+                                else
+                                {
+                                    @($"{tea.IdRegionNavigation.IdCountryNavigation.CountryName} / {tea.IdRegionNavigation.RegionName}")
+                                }
                             </Template>
                         </RadzenDataGridColumn>
                     }
