@@ -39,4 +39,26 @@ public static class ElectronHandler
         // Add events to the Electron Window
         MainWindow.OnReadyToShow += () => MainWindow.Show();
     }
+
+    /// <summary>
+    /// Open a Dialog that let user select a folder from windows
+    /// </summary>
+    /// <returns>The selected folder or null if nothing has been selected</returns>
+    public static async Task<string> OpenSelectFolderDialog()
+    {
+        string[] result = await ElectronNET.API.Electron.Dialog.ShowOpenDialogAsync(
+            MainWindow, 
+            new OpenDialogOptions() { 
+                Properties = new []
+                {
+                    OpenDialogProperty.openFile, 
+                    OpenDialogProperty.openDirectory
+                },
+                Title = "Dossier de destination : export CSV",
+                ButtonLabel = "Valider",
+            });
+
+        // Return the selected folder if user selected one
+        return result.Any() ? result[0] : null;
+    }
 }

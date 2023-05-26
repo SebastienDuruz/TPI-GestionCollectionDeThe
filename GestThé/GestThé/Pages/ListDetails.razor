@@ -50,7 +50,7 @@
                 <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="print" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1"
                               @onclick:stopPropagation="true" Click=@(async args => await DialogService.OpenAsync<PrintPDF>("Aperçu avant impression", new Dictionary<string, object>() { {"ListId", List.IdList} }, options: new DialogOptions() { CloseDialogOnOverlayClick = true, Draggable = false, Resizable = false, ShowClose = true, Width = "800px", Height = "90%"}))></RadzenButton>
                 <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="download" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1" 
-                              @onclick:stopPropagation="true"></RadzenButton>
+                              Click="ExportCSV" @onclick:stopPropagation="true"></RadzenButton>
             </div>
         </RadzenStack>
         <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.SpaceBetween">
