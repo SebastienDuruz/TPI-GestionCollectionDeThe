@@ -5,10 +5,15 @@
 * Description : ListDetails Component logic
 */
 
+using ElectronNET.API;
+using ElectronNET.API.Entities;
+using GestThéLib.Data.CSV;
+using GestThéLib.Data.Electron;
 using GestThéLib.Models.Database;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
+using Radzen;
 using Radzen.Blazor;
 
 namespace GestThé.Pages;
@@ -67,5 +72,47 @@ public partial class ListDetails
     private async Task ReturnToLists()
     {
         NavigationManager.NavigateTo(Path.Combine($"{NavigationManager.BaseUri}", "lists"));
+    }
+    
+    /// <summary>
+    /// Export the list of tea to CSV
+    /// </summary>
+    private async Task ExportCSV()
+    {
+        string folderPath = null;
+        CsvGenerator csvGenerator = new CsvGenerator();
+        
+        // If Electron is active, open a Dialog, user will select the folder where to save the export
+        if (HybridSupport.IsElectronActive)
+            folderPath = await ElectronHandler.OpenSelectFolderDialog();
+        
+        // Build a clone of the list for export
+        TList listToExport = new TList()
+        {
+            ListName = List.ListName,
+            ListDescription = List.ListDescription,
+            ListAddDate = List.ListAddDate,
+            ListModificationDate = List.ListModificationDate,
+            IdList = List.IdList,
+            IdTeas = TeaList.ToList(),
+            IdFields = List.IdFields.ToList()
+        };
+        
+        // Generate the export if user selected a folder
+        if (String.IsNullOrWhiteSpace(folderPath))
+        {
+            // DO NOTHING
+        }
+        else
+        {
+            csvGenerator.WriteListExport(listToExport, folderPath);
+        
+            // Notify the user about the export
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Success, Summary = "L'export CSV a été sauvegardé", Duration = 2000,
+                CloseOnClick = true
+            });
+        }
     }
 }

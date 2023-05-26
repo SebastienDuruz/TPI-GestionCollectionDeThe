@@ -59,7 +59,9 @@
         <div class="flex gap-8">
             <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="print" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium"
                                           @onclick:stopPropagation="true" Click=@(async args => await DialogService.OpenAsync<PrintPDF>("Aperçu avant impression", new Dictionary<string, object>() { {"Teas", CollectionTeas.ToList() } }, options: new DialogOptions() { CloseDialogOnOverlayClick = true, Draggable = false, Resizable = false, ShowClose = true, Width = "800px", Height = "90%"}))></RadzenButton>
-                            
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="download" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" 
+                          Click="ExportCSV" @onclick:stopPropagation="true"></RadzenButton>
+                                        
             <RadzenButton Text="Nouveau thé" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Success" Click=@(async args => await DialogService.OpenSideAsync<TeaAdd>("Ajouter un thé", options: new SideDialogOptions { CloseDialogOnOverlayClick = true, Position = DialogPosition.Right, ShowMask = true, Width = "40%" })) />
         </div>
     </RadzenStack>

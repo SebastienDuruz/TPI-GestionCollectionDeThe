@@ -5,6 +5,9 @@
 * Description : Index Component logic
 */
 
+using ElectronNET.API;
+using GestThéLib.Data.CSV;
+using GestThéLib.Data.Electron;
 using GestThéLib.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
@@ -304,5 +307,35 @@ public partial class Index
         
         // Search again to reset default values
         Search();
+    }
+
+    /// <summary>
+    /// Export the list of tea to CSV
+    /// </summary>
+    private async Task ExportCSV()
+    {
+        string folderPath = null;
+        CsvGenerator csvGenerator = new CsvGenerator();
+        
+        // If Electron is active, open a Dialog, user will select the folder where to save the export
+        if (HybridSupport.IsElectronActive)
+            folderPath = await ElectronHandler.OpenSelectFolderDialog();
+        
+        // Execute the export if user selected a path
+        if (String.IsNullOrWhiteSpace(folderPath))
+        {
+            // DO NOTHING
+        }
+        else
+        {
+            csvGenerator.WriteTeaExport(CollectionTeas.ToList(), folderPath);
+            
+            // Notify the user about the export
+            NotificationService.Notify(new NotificationMessage
+            {
+                Severity = NotificationSeverity.Success, Summary = "L'export CSV a été sauvegardé", Duration = 2000,
+                CloseOnClick = true
+            });
+        }
     }
 }
