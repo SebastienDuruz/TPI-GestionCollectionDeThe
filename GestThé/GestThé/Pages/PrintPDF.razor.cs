@@ -26,11 +26,14 @@ public partial class PrintPDF
     private string _idPreviewPdf = "pdfContainer";
  
     /// <summary>
-    /// List to print
+    /// Id of the list to print
     /// </summary>
     [Parameter]
     public long ListId { get; set; }
     
+    /// <summary>
+    /// Teas to print
+    /// </summary>
     [Parameter]
     public List<TTea> Teas { get; set; }
  
