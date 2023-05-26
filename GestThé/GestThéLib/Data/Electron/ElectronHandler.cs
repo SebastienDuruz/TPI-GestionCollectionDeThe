@@ -18,7 +18,7 @@ public static class ElectronHandler
     /// <summary>
     /// Main Window of the application
     /// </summary>
-    public static BrowserWindow MainWindow { get; set; }
+    private static BrowserWindow MainWindow { get; set; }
     
     /// <summary>
     /// Build the Electron Window
@@ -54,7 +54,7 @@ public static class ElectronHandler
                     OpenDialogProperty.openFile, 
                     OpenDialogProperty.openDirectory
                 },
-                Title = "Dossier destination",
+                Title = "Dossier de destination : export CSV",
                 ButtonLabel = "Valider",
             });
 
