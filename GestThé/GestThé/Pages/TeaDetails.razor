@@ -1,4 +1,4 @@
-﻿@page "/tea/{TeaId:int}"
+﻿@page "/tea/{TeaId:long}"
 
 @using GestThéLib.Data.Database
 
@@ -9,6 +9,10 @@
 <div class="flex justify-between">
     <div>
         <RadzenText TextStyle="TextStyle.H6">Détail @(Tea.TeaName)</RadzenText>
+        @if (Tea.TeaIsArchived.Value)
+        {
+            <RadzenText TextStyle="TextStyle.Overline" class="rz-color-danger">Archivé</RadzenText>
+        }
     </div>
     <div>
         <RadzenButton ButtonStyle="ButtonStyle.Warning" Icon="edit" Variant="Variant.Flat" Shade="Shade.Lighter" Size="ButtonSize.Medium" class="my-1 ms-1 mx-2" 

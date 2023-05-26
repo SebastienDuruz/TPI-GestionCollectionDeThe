@@ -54,8 +54,12 @@
             </div>
         </RadzenStack>
         <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.SpaceBetween">
-            <RadzenText TextStyle="TextStyle.H6">Thés</RadzenText>
-            <RadzenDataGrid @ref="TeaDataGrid" AllowFiltering="false" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowColumnResize="true" AllowAlternatingRows="false" 
+            <div class="flex flex-grow w-full justify-between">
+                <div>
+                    <RadzenText TextStyle="TextStyle.H6">Thés (total: @(TeaList.Count()))</RadzenText>
+                </div>
+            </div>
+            <RadzenDataGrid @ref="TeaDataGrid" AllowFiltering="false" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowColumnResize="true" AllowAlternatingRows="false"
                             AllowSorting="true" PageSize="20" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Center" ShowPagingSummary="true"
                             Data="@TeaList" TItem="TTea" LogicalFilterOperator="LogicalFilterOperator.And" EmptyText="Aucun thé à afficher.">
                 <Columns>
@@ -127,7 +131,11 @@
                     }
                     @if (List.IdFields.Any(x => x.FieldName == "quantité"))
                     {
-                        <RadzenDataGridColumn TItem="TTea" Property="TeaQuantity" Filterable="true" Title="Quantité" Width="70px"></RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="TTea" Property="TeaQuantity" Filterable="true" Title="Quantité" Width="70px">
+                            <Template Context="quantity">
+                                @quantity.TeaQuantity.Value.ToString("# g")
+                            </Template>
+                        </RadzenDataGridColumn>
                     }
                     @if (List.IdFields.Any(x => x.FieldName == "année"))
                     {

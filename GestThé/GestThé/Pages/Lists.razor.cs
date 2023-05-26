@@ -67,7 +67,10 @@ public partial class Lists
     /// <param name="value">new value</param>
     private void FieldOnChange(string value)
     {
-        _fieldsSearchValue = value.ToLower();
+        if (String.IsNullOrWhiteSpace(value))
+            _fieldsSearchValue = "";
+        else
+            _fieldsSearchValue = value.ToLower();
         Search();
     }
     

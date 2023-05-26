@@ -874,12 +874,20 @@ select {
   width: 40%;
 }
 
+.w-5\/12 {
+  width: 41.666667%;
+}
+
 .w-8 {
   width: 2rem;
 }
 
 .w-full {
   width: 100%;
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 .transform {
@@ -934,6 +942,10 @@ select {
 
 .gap-8 {
   gap: 2rem;
+}
+
+.self-end {
+  align-self: flex-end;
 }
 
 .\!overflow-hidden {
@@ -1018,11 +1030,6 @@ select {
 
 .font-bold {
   font-weight: 700;
-}
-
-.text-red-600 {
-  --tw-text-opacity: 1;
-  color: rgb(220 38 38 / var(--tw-text-opacity));
 }
 
 .outline {

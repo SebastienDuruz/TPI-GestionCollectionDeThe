@@ -51,28 +51,30 @@
                 </div>
             </div>
         }
-    <div class="flex flex-col">
-        <RadzenLabel for="listTeas">Thés</RadzenLabel>
-        <RadzenDropDownDataGrid @ref="TeaDataGrid" Chips="true" AllowFiltering="true" AllowSorting="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowClear="true" @bind-Value=@_selectedTeas
-                                    Multiple="true" Placeholder="Selectionner les thés..." Data=@Teas TextProperty="TeaName">
-                <Columns>
-                    <RadzenDropDownDataGridColumn Width="60px" Sortable="false">
-                        <HeaderTemplate>
-                            <RadzenCheckBox Disabled="@(!TeaDataGrid.AllowSelectAll)" TriState="false" TValue="bool" Value="@(Teas.Any(c => _selectedTeas != null && _selectedTeas.Contains(c)))"
-                                            Change="@(args => _selectedTeas = args ? TeaDataGrid.View.Cast<TTea>() : _selectedTeas = Enumerable.Empty<TTea>())" />
-                        </HeaderTemplate>
-                        <Template Context="data">
-                            <RadzenCheckBox TriState="false" Value="@(_selectedTeas != null && _selectedTeas.Contains(((TTea) data)))"
-                                            TValue="bool" Change=@(args => TeaDataGrid.SelectItem(data)) @onclick:stopPropagation/>
-                        </Template>
-                    </RadzenDropDownDataGridColumn>
-                    <RadzenDropDownDataGridColumn Property="TeaName" Title="Nom" Width="120px" Filterable="true" Sortable="true"/>
-                    <RadzenDropDownDataGridColumn Property="TeaYear" Title="Année" Width="200px" Filterable="true" Sortable="true" />
-                </Columns>
-            </RadzenDropDownDataGrid>
-    </div>
-    <div class="flex justify-end">
-        <RadzenButton type="submit">Valider</RadzenButton>
+    <div class="flex align-middle justify-between gap-8">
+        <div class="flex flex-col flex-grow">
+            <RadzenLabel for="listTeas">Thés</RadzenLabel>
+            <RadzenDropDownDataGrid @ref="TeaDataGrid" Chips="true" AllowFiltering="true" AllowSorting="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowClear="true" @bind-Value=@_selectedTeas
+                                        Multiple="true" Placeholder="Selectionner les thés..." Data=@Teas TextProperty="TeaName">
+                    <Columns>
+                        <RadzenDropDownDataGridColumn Width="60px" Sortable="false">
+                            <HeaderTemplate>
+                                <RadzenCheckBox Disabled="@(!TeaDataGrid.AllowSelectAll)" TriState="false" TValue="bool" Value="@(Teas.Any(c => _selectedTeas != null && _selectedTeas.Contains(c)))"
+                                                Change="@(args => _selectedTeas = args ? TeaDataGrid.View.Cast<TTea>() : _selectedTeas = Enumerable.Empty<TTea>())" />
+                            </HeaderTemplate>
+                            <Template Context="data">
+                                <RadzenCheckBox TriState="false" Value="@(_selectedTeas != null && _selectedTeas.Contains(((TTea) data)))"
+                                                TValue="bool" Change=@(args => TeaDataGrid.SelectItem(data)) @onclick:stopPropagation/>
+                            </Template>
+                        </RadzenDropDownDataGridColumn>
+                        <RadzenDropDownDataGridColumn Property="TeaName" Title="Nom" Width="120px" Filterable="true" Sortable="true"/>
+                        <RadzenDropDownDataGridColumn Property="TeaYear" Title="Année" Width="200px" Filterable="true" Sortable="true" />
+                    </Columns>
+                </RadzenDropDownDataGrid>
+        </div>
+        <div class="justify-end self-end">
+            <RadzenButton type="submit">Valider</RadzenButton>
+        </div>
     </div>
     <div class="flex justify-end">
         <RadzenText TextStyle="TextStyle.Overline">* Champs obligatoire</RadzenText>

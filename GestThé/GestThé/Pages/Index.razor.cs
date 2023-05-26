@@ -248,14 +248,14 @@ public partial class Index
     {
         if (_teaYearSearchValues == null)
             _teaYearSearchValues = new List<long>();
-            
+
         // Fetch the teas from the collection
         CollectionTeas = DatabaseContext.TTeas.Include(x => x.IdTypeNavigation)
             .Include(x => x.IdVarietyNavigation)
             .Include(x => x.IdRegionNavigation)
             .Include(x => x.IdRegionNavigation.IdCountryNavigation)
             .Include(x => x.IdProviderNavigation);
-        
+
         // Apply the price filter (range between)
         CollectionTeas = CollectionTeas.Where(x =>
             x.TeaPrice >= _teaMinPriceSearchValue && x.TeaPrice <= _teaMaxPriceSearchValue);
@@ -267,7 +267,7 @@ public partial class Index
         // Apply Name filter
         if (!String.IsNullOrWhiteSpace(_teaNameSearchValue))
             CollectionTeas = CollectionTeas.Where(x => x.TeaName.ToLower().Contains(_teaNameSearchValue));
-        
+
         // Apply Variety filter
         if (!String.IsNullOrWhiteSpace(_teaVarietySearchValue))
             CollectionTeas =
@@ -277,7 +277,7 @@ public partial class Index
         if (!String.IsNullOrWhiteSpace(_teaTypeSearchValue))
             CollectionTeas =
                 CollectionTeas.Where(x => x.IdTypeNavigation.TypeName.ToLower().Contains(_teaTypeSearchValue));
-            
+
         // Apply region filter
         if (!String.IsNullOrWhiteSpace(_teaRegionSearchValue))
             CollectionTeas = CollectionTeas.Where(x =>
@@ -287,7 +287,7 @@ public partial class Index
         // Apply Year filter
         if (_teaYearSearchValues != null && _teaYearSearchValues.Any())
             CollectionTeas = CollectionTeas.Where(x => _teaYearSearchValues.Contains(x.TeaYear.Value));
-        
+
         StateHasChanged();
     }
 
