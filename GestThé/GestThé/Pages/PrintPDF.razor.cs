@@ -5,6 +5,9 @@
 * Description : PrintPDF Component logic
 */
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using GestThéLib.Data.PDF;
 using GestThéLib.Models.Database;
 using Microsoft.AspNetCore.Components;

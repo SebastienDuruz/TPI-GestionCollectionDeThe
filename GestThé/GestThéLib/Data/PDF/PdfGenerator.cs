@@ -19,7 +19,66 @@ public class PdfGenerator
     /// <summary>
     /// Header of the PDF export, contains the header values and CSS classes
     /// </summary>
-    private string PDF_HEADER = @"<!DOCTYPE html><html lang='fr'><head><meta charset='UTF-8'><title>PDF export</title><style>body {font-family: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;width: 400px;}table {border-collapse: collapse;width: 100%;}table, th, td{border: 1px solid #707070;} td, th { text-align: center; padding-left: 2px; height: 25px;}.archived { color: red;}.center {text-align: center;}.right {text-align: right;}</style></head><body>";
+    private static string PDF_HEADER = @"<!DOCTYPE html>
+<html lang='fr'>
+<head>
+    <meta charset='UTF-8'>
+    <title>PDF export</title>
+    <style>
+        body {
+            font-family: 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            width: 400px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        table,
+        th,
+        td {
+            border: 1px solid #707070;
+            text-align: center;
+            vertical-align: middle;
+        }
+        td,
+        th {
+            padding-left: 2px;
+            height: 25px;
+        }
+        th {
+            font-weight: bold;
+        }
+        h1 {
+            font-weight: bold;
+            font-size: 24px;
+            margin: 15px 0;
+        }
+        h2{
+            font-weight: bold;
+            font-size: 18px;
+            margin: 15px 0;
+        }
+        p{
+            margin-bottom: 5px;
+        }
+
+        .archived {
+            color: red;
+        }
+        .center {
+            text-align: center;
+        }
+        .right {
+            text-align: right;
+        }
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>";
     
     /// <summary>
     /// Show the list export onto a given iFrame
@@ -116,7 +175,7 @@ public class PdfGenerator
         }
         
         // End of the body
-        html += $"</table><p class='right'>Exporté le : <b>{DateTime.Now}</b></p></body></html>";
+        html += $"</table><p class='right'>Exporté le : <b class='bold'>{DateTime.Now}</b></p></body></html>";
         
         // Convert to PDF and return the content of the generated PDF
         HtmlConverter.ConvertToPdf(html, new FileStream("output.pdf", FileMode.Create));
@@ -158,7 +217,7 @@ public class PdfGenerator
         }
         
         // End of the body
-        html += $"</table><p class='right'>Exporté le : <b>{DateTime.Now}</b></p></body></html>";
+        html += $"</table><p class='right'>Exporté le : <b class='bold'>{DateTime.Now}</b></p></body></html>";
         
         // Convert to PDF and return the content of the generated PDF
         HtmlConverter.ConvertToPdf(html, new FileStream("output.pdf", FileMode.Create));

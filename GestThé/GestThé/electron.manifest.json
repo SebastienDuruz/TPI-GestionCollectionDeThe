@@ -9,9 +9,9 @@
   "environment": "Production",
   "build": {
     "appId": "com.GestThe.app",
-    "productName": "GestThe",
+    "productName": "GestThé",
     "copyright": "Copyright © 2023",
-    "buildVersion": "0.1.0",
+    "buildVersion": "0.2.0",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop"
