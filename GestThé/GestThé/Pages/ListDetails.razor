@@ -61,7 +61,18 @@
                 <Columns>
                     @if (List.IdFields.Any(x => x.FieldName == "nom"))
                     {
-                        <RadzenDataGridColumn TItem="TTea" Property="TeaName" Title="Nom"></RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="TTea" Property="TeaName" Title="Nom">
+                            <Template Context="tea">
+                                @if (tea.TeaIsArchived.Value)
+                                {
+                                    <span class="rz-color-danger">@tea.TeaName</span>
+                                }
+                                else
+                                {
+                                    @tea.TeaName
+                                }
+                            </Template>
+                        </RadzenDataGridColumn>
                     }
                     @if (List.IdFields.Any(x => x.FieldName == "description"))
                     {
