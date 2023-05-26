@@ -20,7 +20,7 @@ public partial class TeaDetails
     /// Id of the tea to show
     /// </summary>
     [Parameter]
-    public int? TeaId { get; set; }
+    public long? TeaId { get; set; }
     
     /// <summary>
     /// The tea to show info
@@ -33,24 +33,15 @@ public partial class TeaDetails
     protected override async Task OnInitializedAsync()
     {
         if (TeaId != null)
-            Tea = await GetTeaFromId();
+            Tea = await DatabaseContext.TTeas.Include(x => x.IdTypeNavigation)
+                .Include(x => x.IdVarietyNavigation)
+                .Include(x => x.IdRegionNavigation)
+                .Include(x => x.IdRegionNavigation.IdCountryNavigation)
+                .Include(x => x.IdProviderNavigation).Where(x => x.IdTea == TeaId).FirstOrDefaultAsync();
         else
         {
             Tea = new TTea();
         }
-    }
-    
-    /// <summary>
-    /// Get the tea to show by the corresponding ID
-    /// </summary>
-    /// <returns>The tea to show</returns>
-    private async Task<TTea> GetTeaFromId()
-    {
-        return await DatabaseContext.TTeas.Include(x => x.IdTypeNavigation)
-            .Include(x => x.IdVarietyNavigation)
-            .Include(x => x.IdRegionNavigation)
-            .Include(x => x.IdRegionNavigation.IdCountryNavigation)
-            .Include(x => x.IdProviderNavigation).Where(x => x.IdTea == TeaId).FirstOrDefaultAsync();
     }
 
     /// <summary>

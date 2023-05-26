@@ -98,7 +98,14 @@
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="TTea" Property="TCountry.CountryName" Title="Pays / Région" Filterable="true" Sortable="false">
             <Template Context="tea">
-                @($"{tea.IdRegionNavigation.IdCountryNavigation.CountryName} / {tea.IdRegionNavigation.RegionName}")
+                @if (String.IsNullOrWhiteSpace(tea.IdRegionNavigation.RegionName))
+                {
+                    @($"{tea.IdRegionNavigation.IdCountryNavigation.CountryName}")
+                }
+                else
+                {
+                    @($"{tea.IdRegionNavigation.IdCountryNavigation.CountryName} / {tea.IdRegionNavigation.RegionName}")
+                }
             </Template>
         </RadzenDataGridColumn>
         <RadzenDataGridColumn TItem="TTea" Property="TeaPrice" Filterable="true" Title="Prix 100g" Width="100px">
