@@ -874,6 +874,10 @@ select {
   width: 40%;
 }
 
+.w-5\/12 {
+  width: 41.666667%;
+}
+
 .w-8 {
   width: 2rem;
 }

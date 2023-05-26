@@ -131,7 +131,11 @@
                     }
                     @if (List.IdFields.Any(x => x.FieldName == "quantité"))
                     {
-                        <RadzenDataGridColumn TItem="TTea" Property="TeaQuantity" Filterable="true" Title="Quantité" Width="70px"></RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="TTea" Property="TeaQuantity" Filterable="true" Title="Quantité" Width="70px">
+                            <Template Context="quantity">
+                                @quantity.TeaQuantity.Value.ToString("# g")
+                            </Template>
+                        </RadzenDataGridColumn>
                     }
                     @if (List.IdFields.Any(x => x.FieldName == "année"))
                     {
