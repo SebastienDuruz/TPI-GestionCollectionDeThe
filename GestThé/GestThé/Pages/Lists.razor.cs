@@ -111,7 +111,7 @@ public partial class Lists
     /// <param name="listToDelete">The list to delete</param>
     async Task DeleteList(TList listToDelete)
     {
-        var result = await DialogService.Confirm($"Voulez-vous vraiment supprimer la liste {listToDelete.ListName} ?", "Supprimer un thé", new ConfirmOptions() { OkButtonText = "Oui", CancelButtonText = "Non", CloseDialogOnOverlayClick = true});
+        var result = await DialogService.Confirm($"Voulez-vous vraiment supprimer la liste {listToDelete.ListName} ?", "Supprimer une liste", new ConfirmOptions() { OkButtonText = "Oui", CancelButtonText = "Non", CloseDialogOnOverlayClick = true});
 
         if (result.HasValue && result.Value)
         {

@@ -62,6 +62,8 @@ public partial class Index
     /// </summary>
     private List<long> _teaYearsValues;
 
+    private CsvGenerator CsvGenerator { get; set; }
+    
     /// <summary>
     /// List of the teas
     /// </summary>
@@ -83,7 +85,8 @@ public partial class Index
         _teaMaxPriceSearchValue = 1000;
         _teaYearsValues = new List<long>();
         _teaYearSearchValues = new List<long>();
-
+        CsvGenerator = new CsvGenerator();
+        
         CollectionTeas = DatabaseContext.TTeas.Include(x => x.IdTypeNavigation)
             .Include(x => x.IdVarietyNavigation)
             .Include(x => x.IdRegionNavigation)
@@ -315,7 +318,6 @@ public partial class Index
     private async Task ExportCSV()
     {
         string folderPath = null;
-        CsvGenerator csvGenerator = new CsvGenerator();
         
         // If Electron is active, open a Dialog, user will select the folder where to save the export
         if (HybridSupport.IsElectronActive)
@@ -328,7 +330,7 @@ public partial class Index
         }
         else
         {
-            csvGenerator.WriteTeaExport(CollectionTeas.ToList(), folderPath);
+            CsvGenerator.WriteTeaExport(CollectionTeas.ToList(), folderPath);
             
             // Notify the user about the export
             NotificationService.Notify(new NotificationMessage
