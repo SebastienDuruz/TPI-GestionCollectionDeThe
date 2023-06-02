@@ -62,8 +62,6 @@ public partial class Index
     /// </summary>
     private List<long> _teaYearsValues;
 
-    private CsvGenerator CsvGenerator { get; set; }
-    
     /// <summary>
     /// List of the teas
     /// </summary>
@@ -85,7 +83,6 @@ public partial class Index
         _teaMaxPriceSearchValue = 1000;
         _teaYearsValues = new List<long>();
         _teaYearSearchValues = new List<long>();
-        CsvGenerator = new CsvGenerator();
         
         CollectionTeas = DatabaseContext.TTeas.Include(x => x.IdTypeNavigation)
             .Include(x => x.IdVarietyNavigation)

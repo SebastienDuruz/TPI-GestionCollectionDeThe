@@ -80,7 +80,6 @@ public partial class ListDetails
     private async Task ExportCSV()
     {
         string folderPath = null;
-        CsvGenerator csvGenerator = new CsvGenerator();
         
         // If Electron is active, open a Dialog, user will select the folder where to save the export
         if (HybridSupport.IsElectronActive)
@@ -105,7 +104,7 @@ public partial class ListDetails
         }
         else
         {
-            csvGenerator.WriteListExport(listToExport, folderPath);
+            CsvGenerator.WriteListExport(listToExport, folderPath);
         
             // Notify the user about the export
             NotificationService.Notify(new NotificationMessage
