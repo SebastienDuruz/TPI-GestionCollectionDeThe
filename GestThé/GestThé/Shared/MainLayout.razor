@@ -69,9 +69,6 @@
                     case "copiedtea":
                         NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Une copie du thé a été sauvegardée !", Duration = 2000, CloseOnClick = true });
                         break;
-                    case "deletedtea":
-                        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Le thé a bien été archivé!", Duration = 2000, CloseOnClick = true });
-                        break;
                     case "addedlist":
                         NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success,Summary = "La liste a bien été ajoutée !", Duration = 2000, CloseOnClick = true });
                         break;
