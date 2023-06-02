@@ -15,12 +15,12 @@ public class Settings
     /// <summary>
     /// Width of the main Window
     /// </summary>
-    public int WindowWidth { get; set; } = 900;
+    public int WindowWidth { get; set; } = 1280;
 
     /// <summary>
     /// Height of the main Window
     /// </summary>
-    public int WindowHeight { get; set; } = 650;
+    public int WindowHeight { get; set; } = 720;
 
     /// <summary>
     /// Default TOP position of the main Window
