@@ -1,13 +1,10 @@
 ﻿@page "/list/{ListId:long}"
 
-@using GestThéLib.Data.Database
-@using GestThéLib.Models.Database
-@using System.Globalization
-
 @inject DatabaseContext DatabaseContext
 @inject NavigationManager NavigationManager
 @inject DialogService DialogService
 @inject NotificationService NotificationService
+@inject CsvGenerator CsvGenerator
 
 <div class="flex justify-between">
     <RadzenText TextStyle="TextStyle.H6">Détail d'une liste</RadzenText>

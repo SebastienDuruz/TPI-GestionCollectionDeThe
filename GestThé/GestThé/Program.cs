@@ -1,6 +1,8 @@
 using ElectronNET.API;
+using GestThéLib.Data.CSV;
 using GestThéLib.Data.Database;
 using GestThéLib.Data.Electron;
+using GestThéLib.Data.PDF;
 using Plk.Blazor.DragDrop;
 using Radzen;
 
@@ -25,6 +27,10 @@ builder.Services.AddTransient<DatabaseContext>();
 // Radzen Services
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<DialogService>();
+
+// CSV & PDF services
+builder.Services.AddScoped<CsvGenerator>();
+builder.Services.AddScoped<PdfGenerator>();
 
 var app = builder.Build();
 

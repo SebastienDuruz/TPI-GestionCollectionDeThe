@@ -1,10 +1,7 @@
-﻿@using Microsoft.AspNetCore.WebUtilities
-@using System.Globalization
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 
 @inject NavigationManager NavigationManager
 @inject NotificationService NotificationService
-@inject DialogService DialogService
 
 <RadzenDialog/>
 <RadzenNotification/>
@@ -72,9 +69,6 @@
                     case "copiedtea":
                         NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Une copie du thé a été sauvegardée !", Duration = 2000, CloseOnClick = true });
                         break;
-                    case "deletedtea":
-                        NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Le thé a bien été archivé!", Duration = 2000, CloseOnClick = true });
-                        break;
                     case "addedlist":
                         NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success,Summary = "La liste a bien été ajoutée !", Duration = 2000, CloseOnClick = true });
                         break;
@@ -86,9 +80,6 @@
                 // Navigate to the current page after removing the parameters from URI
                 NavigationManager.NavigateTo(NavigationManager.Uri.Split("?")[0]);
             }
-            
-            
-            
         }
         
         return base.OnAfterRenderAsync(firstRender);

@@ -41,11 +41,6 @@ public partial class PrintPDF
     /// List objects to print
     /// </summary>
     private TList List { get; set; }
-
-    /// <summary>
-    /// PdfGenerator instance
-    /// </summary>
-    private PdfGenerator PdfGenerator { get; set; }
  
     /// <summary>
     /// OnInitializedAsync Method
@@ -53,8 +48,6 @@ public partial class PrintPDF
     /// <returns>Result of the Task</returns>
     protected override Task OnInitializedAsync()
     {
-        PdfGenerator = new PdfGenerator();
-
         if (ListId != 0)
         {
             List = DatabaseContext.TLists
