@@ -6,12 +6,9 @@
 */
 
 using ElectronNET.API;
-using ElectronNET.API.Entities;
-using GestThéLib.Data.CSV;
 using GestThéLib.Data.Electron;
 using GestThéLib.Models.Database;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
 using Radzen.Blazor;

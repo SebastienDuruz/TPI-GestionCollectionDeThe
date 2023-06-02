@@ -6,7 +6,6 @@
 */
 
 using ElectronNET.API;
-using GestThéLib.Data.CSV;
 using GestThéLib.Data.Electron;
 using GestThéLib.Models.Database;
 using Microsoft.EntityFrameworkCore;

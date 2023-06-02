@@ -5,8 +5,6 @@
 * Description : ListAdd Component logic
 */
 
-using System.Collections;
-using ElectronNET.API.Entities;
 using GestThéLib.Models.Database;
 using Radzen.Blazor;
 
