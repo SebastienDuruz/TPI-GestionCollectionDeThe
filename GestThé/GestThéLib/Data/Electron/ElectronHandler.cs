@@ -52,7 +52,7 @@ public static class ElectronHandler
         MainWindow.OnReadyToShow += () => MainWindow.Show();
 
         // Save the windowSettings before the MainWindow is closed
-        ElectronNET.API.Electron.IpcMain.On("saveWindowSettings", async (e) =>
+        await ElectronNET.API.Electron.IpcMain.On("saveWindowSettings", async (e) =>
         {
             await SaveMainWindowSettings();
             MainWindow.Destroy();
