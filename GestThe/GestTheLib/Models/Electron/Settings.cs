@@ -15,7 +15,7 @@ public class Settings
     /// <summary>
     /// Width of the main Window
     /// </summary>
-    public int WindowWidth { get; set; } = 1280;
+    public int WindowWidth { get; set; } = 1200;
 
     /// <summary>
     /// Height of the main Window

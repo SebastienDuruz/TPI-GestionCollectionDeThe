@@ -1,5 +1,5 @@
 {
-  "executable": "GestThé",
+  "executable": "GestThe",
   "splashscreen": {
     "imageFile": "/wwwroot/logo-192x192.png"
   },
@@ -11,7 +11,7 @@
     "appId": "com.GestThe.app",
     "productName": "GestThé",
     "copyright": "Copyright © 2023",
-    "buildVersion": "0.3.0",
+    "buildVersion": "1.0.0",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop"

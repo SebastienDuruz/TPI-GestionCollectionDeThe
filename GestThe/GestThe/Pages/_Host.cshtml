@@ -31,13 +31,5 @@
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
     <script src="_framework/blazor.server.js"></script>
     <script src="js/pdfGenerator.js"></script>
-    <script>
-        const { ipcRenderer } = require("electron");
-        window.onbeforeunload = (e) => {
-            e.preventDefault();
-            e.returnValue = true;
-            ipcRenderer.send("saveWindowSettings");
-        };
-    </script>
 </body>
 </html>

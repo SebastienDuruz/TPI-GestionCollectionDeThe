@@ -24,7 +24,7 @@ public static class ElectronHandler
     /// Reader for the settings file
     /// </summary>
     private static SettingsReader SettingsReader { get; set; }
-    
+
     /// <summary>
     /// Build the Electron Window
     /// </summary>
@@ -50,14 +50,9 @@ public static class ElectronHandler
 
         // Add events to the Electron Window
         MainWindow.OnReadyToShow += () => MainWindow.Show();
-
-        // Save the windowSettings before the MainWindow is closed
-        await ElectronNET.API.Electron.IpcMain.On("saveWindowSettings", async (e) =>
-        {
-            await SaveMainWindowSettings();
-            MainWindow.Destroy();
-            ElectronNET.API.Electron.App.Exit();
-        });
+        MainWindow.OnMove += async () => await SaveMainWindowSizeAndPosition();
+        MainWindow.OnResize += async () => await SaveMainWindowSizeAndPosition();
+        MainWindow.OnClose += SaveWindowSettings;
     }
 
     /// <summary>
@@ -83,20 +78,26 @@ public static class ElectronHandler
     }
     
     /// <summary>
-    /// Save the current Electron values to settings file
+    /// Save the current Electron values to the settings
     /// </summary>
-    private static async Task SaveMainWindowSettings()
+    private static async Task SaveMainWindowSizeAndPosition()
     {
         // Get the current value from MainWindow
         int[] mainWindowSize = await MainWindow.GetSizeAsync();
         int[] mainWindowPosition = await MainWindow.GetPositionAsync();
 
         // Set the new values
-        SettingsReader.SettingsValues.WindowWidth = mainWindowSize[0];
-        SettingsReader.SettingsValues.WindowHeight = mainWindowSize[1];
+        SettingsReader.SettingsValues.WindowWidth = mainWindowSize[0] - 14;
+        SettingsReader.SettingsValues.WindowHeight = mainWindowSize[1] - 8;
         SettingsReader.SettingsValues.WindowLeft = mainWindowPosition[0];
         SettingsReader.SettingsValues.WindowTop = mainWindowPosition[1];
+    }
 
+    /// <summary>
+    /// Save the window settings to the json file
+    /// </summary>
+    private static void SaveWindowSettings()
+    {
         // Write the new Settings
         SettingsReader.WriteSettings();
     }
