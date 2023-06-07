@@ -1,8 +1,8 @@
-<img src="Screenshots/logo.png" alt="Picture" width="256" height="256" style="display: block; margin: 25px auto" />
+<p align="center">
+  <img src="Screenshots/logo.png" alt="Picture" width="256" height="256" style="display: block; margin: 25px auto" />
+</p>
 
 # GestThé (Français)
-
----
 
 Ce projet intervient dans le cadre de mon **TPI** (Travail Pratique Individuel) permettant de valider mon **CFC**.
 
@@ -107,8 +107,6 @@ Ce fichier peut être édité par un **utilisateur technique** afin d'ajouter, m
 **GestThé** est un logiciel libre sous [GNU Affero General Public License V3](LICENSE)
 
 # GestThé (English)
-
----
 
 This project is part of my **TPI** (Travail Pratique Individuel) to validate my **CFC**.
 
