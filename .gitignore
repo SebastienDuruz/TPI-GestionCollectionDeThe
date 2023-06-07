@@ -398,3 +398,6 @@ FodyWeavers.xsd
 *.sln.iml
 GestThé/GestThé/output.pdf
 GestThe/.idea/.idea.GestThe/.idea/.name
+.idea/.idea.TPI-GestionCollectionDeThe.dir/.idea/indexLayout.xml
+.idea/.idea.TPI-GestionCollectionDeThe.dir/.idea/workspace.xml
+.idea/*
