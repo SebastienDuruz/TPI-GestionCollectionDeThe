@@ -35,6 +35,9 @@ public class SettingsReader
     /// </summary>
     private string FilePath { get; set; }
     
+    /// <summary>
+    /// Default Constructor
+    /// </summary>
     public SettingsReader()
     {
         // Create the folder if it doesn't exists
