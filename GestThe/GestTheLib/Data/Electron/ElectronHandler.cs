@@ -31,6 +31,9 @@ public static class ElectronHandler
     public static async Task BuildElectronWindow()
     {
         SettingsReader = new SettingsReader();
+
+        // Make sure the Window is on a valid display bounds
+        await ValidateWindowPosition();
         
         // Setup the Electron Window
         MainWindow = await ElectronNET.API.Electron.WindowManager.CreateWindowAsync(
@@ -52,7 +55,7 @@ public static class ElectronHandler
         MainWindow.OnReadyToShow += () => MainWindow.Show();
         MainWindow.OnMove += async () => await SaveMainWindowSizeAndPosition();
         MainWindow.OnResize += async () => await SaveMainWindowSizeAndPosition();
-        MainWindow.OnClose += SaveWindowSettings;
+        MainWindow.OnClose += SettingsReader.WriteSettings;
     }
 
     /// <summary>
@@ -94,11 +97,38 @@ public static class ElectronHandler
     }
 
     /// <summary>
-    /// Save the window settings to the json file
+    /// Validate that the application is on the bounds of the displays
+    /// <returns>True if valid position, false if not</returns>
     /// </summary>
-    private static void SaveWindowSettings()
+    private static async Task<bool> ValidateWindowPosition()
     {
-        // Write the new Settings
-        SettingsReader.WriteSettings();
+        bool windowPositionIsValid = false;
+        
+        // Get the connected displays
+        Display[] displays = await ElectronNET.API.Electron.Screen.GetAllDisplaysAsync();
+        
+        // check Window positions
+        foreach (Display display in displays)
+        {
+            if (display.Bounds.X <= SettingsReader.SettingsValues.WindowLeft
+                && display.Bounds.X + display.Bounds.Width >= SettingsReader.SettingsValues.WindowLeft
+                && display.Bounds.Y <= SettingsReader.SettingsValues.WindowHeight
+                && display.Bounds.Y + display.Bounds.Height >= SettingsReader.SettingsValues.WindowTop)
+            {
+                windowPositionIsValid = true;
+                break;
+            }
+        }
+
+        // Reset the position values for MainWindow
+        if (!windowPositionIsValid)
+        {
+            SettingsReader.SettingsValues.WindowLeft = 100;
+            SettingsReader.SettingsValues.WindowTop = 100;
+            SettingsReader.WriteSettings();
+        }
+
+        // Return the result
+        return windowPositionIsValid;
     }
 }
