@@ -11,7 +11,7 @@
     "appId": "com.GestThe.app",
     "productName": "GestThé",
     "copyright": "Copyright © 2023",
-    "buildVersion": "1.0.0",
+    "buildVersion": "1.0.1",
     "compression": "maximum",
     "directories": {
       "output": "../../../bin/Desktop"
